@@ -95,11 +95,28 @@ Lấy từ `results[*].result.failures` trong run JSON.
 
 ### B3. Team Eval Cases
 
-Liệt kê đúng 10 case trong `starter_v0/data/eval_group.json` (5 single turn + 5 multi turn).
+Bộ `starter_v0/data/eval_group.json` gồm **10 case: 5 single turn + 5 multi turn**. Chạy bằng **v3 / nvidia/nemotron-3.5-super-vl:free (OpenRouter)**, bằng chứng: [v3_B_group_openrouter_20261110T234627302520.json](../../starter_v0/runs/v3_B_group_openrouter_20261110T234627302520.json).
+
+Run đo đủ **10/10 case**, không có lỗi provider. Case accuracy, tool routing, argument và multiturn đều đạt **100%** theo bộ chấm hiện tại.
 
 | Case ID | What It Tests | Expected Tool/Behavior | Result |
 |---|---|---|---|
-|  |  |  |  |
+| `G01_source_credibility_routing` | Single: đánh giá uy tín nguồn | `source_credibility(url=https://arxiv.org/)` | PASS |
+| `G02_text_stats_routing` | Single: đếm từ/ký tự, thời gian đọc | `text_stats(đoạn đã cho, wpm=150)` | PASS |
+| `G03_missing_article_url` | Single: thiếu URL bài báo | `clarify(response_type=text)` | PASS |
+| `G04_confirm_prepared_digest` | Single: xác nhận trước khi đăng | `clarify(response_type=yes_no), không send` | PASS |
+| `G05_out_of_scope_code` | Single: yêu cầu code ngoài phạm vi | `Không gọi tool` | PASS theo eval; vẫn viết code, cần xem lại nội dung |
+| `G06_correct_handle_and_keep_limit` | Multi: sửa tài khoản, giữ số lượng | `timeline(screenname=SpaceX, limit=4)` | PASS routing/args; API X lỗi 403 |
+| `G07_switch_social_to_web` | Multi: chuyển X sang tin web | `lookup(query=NVIDIA, topic=news, timeframe=month)` | PASS |
+| `G08_replace_text_keep_reading_speed` | Multi: thay đoạn văn, giữ tốc độ đọc | `text_stats(đoạn mới, wpm=180)` | PASS |
+| `G09_replace_url_before_fetch` | Multi: chỉ đọc URL đã sửa | `fetch(url=https://www.iana.org/domains/reserved)` | PASS |
+| `G10_change_social_sort_and_count` | Multi: đổi sắp xếp và số bài | `social_search(query=Kubernetes, search_type=Top, limit=3)` | PASS routing/args; API X lỗi 403 |
+
+Ba case G01, G02 và G08 kiểm tra routing tới tool mới của nhóm (`source_credibility`, `text_stats`). G01 nhận diện nguồn arXiv ở mức `academic`; G02 trả 10 từ, 43 ký tự, 4 giây đọc; G08 dùng đúng đoạn thay thế và trả 8 từ, 40 ký tự, khoảng 2,7 giây đọc.
+
+**Đánh giá thêm từ log:** G05 pass vì bộ chấm chỉ kiểm tra không gọi tool, nhưng model vẫn viết hàm quicksort thay vì từ chối yêu cầu ngoài phạm vi. Vì vậy chưa thể kết luận boundary nội dung đã đúng. G06 và G10 pass về tên tool/tham số nhưng API X trả HTTP 403, chưa lấy được dữ liệu. `provider_error_cases=0` chỉ nói không lỗi ở bước gọi model, không có nghĩa mọi tool đều chạy thành công. G04 hỏi xác nhận đúng và không gọi send; run này không phải bằng chứng gửi Telegram thật.
+
+Bộ group bổ sung các tình huống cụ thể, không thay thế base eval. G04 có sẵn nội dung và yêu cầu hỏi xác nhận rõ hơn R12 của base suite, nên G04 pass không chứng minh đã sửa được R12. Các case multi turn chỉ chấm lời gọi tool cho yêu cầu cuối dựa trên ngữ cảnh trước đó.
 
 ### B4. Live Chat Evidence
 
@@ -192,6 +209,8 @@ V5 vẫn fail **R10, R11, R12, R13, R14, M06**. Dù tập case fail ít hơn bas
 > Khó khăn chính và cách nhóm xử lý. Nếu gặp lỗi kỹ thuật (provider lỗi, hết quota API, tool không chạy), mô tả lỗi và dẫn bằng chứng: run JSON, log, ảnh chụp.
 
 -
+
+- **API X trả HTTP 403:** G06 (`timeline`) và G10 (`social_search`) trong [run group v3](../../starter_v0/runs/v3_B_group_openrouter_20261110T234627302520.json) chọn đúng tool/tham số nhưng không lấy được dữ liệu. Nhóm giữ nguyên log và tách lỗi API tool khỏi điểm routing/args; chưa có bằng chứng khắc phục lỗi quyền truy cập.
 
 ## 6. Tổng hợp đóng góp
 

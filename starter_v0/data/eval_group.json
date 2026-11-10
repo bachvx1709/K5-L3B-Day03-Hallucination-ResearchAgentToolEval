@@ -2,6 +2,249 @@
   "dataset_id": "day03_v2_research_group",
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
-  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "allowed_failure_types": [
+    "wrong_tool",
+    "wrong_arg_value",
+    "wrong_boundary",
+    "unnecessary_tool",
+    "out_of_scope",
+    "missing_info"
+  ],
+  "cases": [
+    {
+      "id": "G01_source_credibility_routing",
+      "phase": "B",
+      "query": "Kiểm tra độ tin cậy của nguồn https://arxiv.org/ giúp mình. Chỉ đánh giá nguồn, không đọc hay tóm tắt bài viết.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "source_credibility",
+            "args": {
+              "url": "https://arxiv.org/"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Route tới tool mới source_credibility khi cần đánh giá uy tín URL, không dùng fetch hay lookup."
+      }
+    },
+    {
+      "id": "G02_text_stats_routing",
+      "phase": "B",
+      "query": "Đếm số từ, số ký tự và ước tính thời gian đọc đoạn sau với tốc độ 150 từ/phút: \"AI hỗ trợ nghiên cứu và tổng hợp thông tin.\"",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "AI hỗ trợ nghiên cứu và tổng hợp thông tin.",
+              "wpm": 150
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Route tới tool mới text_stats, giữ nguyên đoạn văn và tốc độ đọc được yêu cầu."
+      }
+    },
+    {
+      "id": "G03_missing_article_url",
+      "phase": "B",
+      "query": "Đọc và tóm tắt bài báo về chip AI mình vừa nhắc tới nhé. Mình chưa gửi đường link bài báo.",
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Thiếu URL của bài cụ thể thì gọi clarify, không đoán URL hoặc thay bằng tìm kiếm web."
+      }
+    },
+    {
+      "id": "G04_confirm_prepared_digest",
+      "phase": "B",
+      "query": "Bản tin đã soạn: \"Nhóm đã hoàn tất phần đánh giá model local.\" Hãy chuẩn bị đăng nguyên văn lên Telegram và hỏi mình xác nhận trước; mình chưa xác nhận gửi.",
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Có sẵn nội dung nhưng chưa xác nhận: phải gọi clarify yes_no, không gọi send kể cả confirmed=false."
+      }
+    },
+    {
+      "id": "G05_out_of_scope_code",
+      "phase": "B",
+      "query": "Viết cho mình một hàm JavaScript sắp xếp mảng số bằng thuật toán quicksort.",
+      "failure_type": "out_of_scope",
+      "expect": {
+        "no_tool": true
+      },
+      "metadata": {
+        "what_it_tests": "Yêu cầu viết code nằm ngoài phạm vi research/news: không gọi tool, kể cả clarify hoặc text_stats."
+      }
+    },
+    {
+      "id": "G06_correct_handle_and_keep_limit",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Lấy 4 bài đăng mới nhất của tài khoản @NASA trên X."
+        },
+        {
+          "role": "user",
+          "content": "Mình nhầm tài khoản, đổi thành @SpaceX; vẫn lấy 4 bài."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "SpaceX",
+              "limit": 4
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Áp dụng tài khoản được sửa ở lượt cuối, bỏ @ và giữ số lượng 4; chỉ gọi cho yêu cầu cuối."
+      }
+    },
+    {
+      "id": "G07_switch_social_to_web",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tìm thảo luận về NVIDIA trên X."
+        },
+        {
+          "role": "user",
+          "content": "Bỏ X nhé, chuyển sang tin tức báo chí trên web trong tháng này, vẫn chủ đề NVIDIA."
+        }
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "NVIDIA",
+              "topic": "news",
+              "timeframe": "month"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Chuyển nguồn từ social_search sang lookup, giữ chủ đề và áp dụng timeframe=month ở lượt mới."
+      }
+    },
+    {
+      "id": "G08_replace_text_keep_reading_speed",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Đếm từ, ký tự và thời gian đọc với tốc độ 180 từ/phút cho đoạn: \"Bản nháp đầu tiên đã sẵn sàng.\""
+        },
+        {
+          "role": "user",
+          "content": "Thay toàn bộ đoạn cũ bằng: \"Nhóm đang kiểm tra chất lượng nguồn tin.\" Giữ nguyên tốc độ đọc."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "Nhóm đang kiểm tra chất lượng nguồn tin.",
+              "wpm": 180
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Tool mới text_stats phải dùng văn bản thay thế ở lượt cuối và giữ wpm=180, không phân tích cả hai đoạn."
+      }
+    },
+    {
+      "id": "G09_replace_url_before_fetch",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Đọc trang https://example.com/ giúp mình."
+        },
+        {
+          "role": "user",
+          "content": "Đổi sang https://www.iana.org/domains/reserved nhé; chỉ đọc URL mới, không cần đọc trang cũ."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://www.iana.org/domains/reserved"
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Chỉ gọi fetch cho URL đã sửa ở lượt cuối; không gọi thêm cho URL cũ."
+      }
+    },
+    {
+      "id": "G10_change_social_sort_and_count",
+      "phase": "B",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Tìm 8 bài đăng mới nhất trên X về Kubernetes."
+        },
+        {
+          "role": "user",
+          "content": "Đổi thành 3 bài phổ biến nhất, giữ nguyên chủ đề và nguồn X."
+        }
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "Kubernetes",
+              "search_type": "Top",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "metadata": {
+        "what_it_tests": "Giữ chủ đề và nguồn, cập nhật cả search_type=Top lẫn limit=3; không giữ Latest hoặc số lượng 8."
+      }
+    }
+  ]
 }

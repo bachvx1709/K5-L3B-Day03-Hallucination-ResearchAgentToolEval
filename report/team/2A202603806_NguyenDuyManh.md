@@ -33,6 +33,8 @@ V5 cải thiện tham số và giữ ngữ cảnh, nhưng routing của 3B vẫn
 ## 4. Bằng chứng và công cụ hỗ trợ
 
 - Commit v2: `c0b355ff4f59db25333005a04760e2e40bbf924a` — chuẩn hóa description trong tools.yaml.
+- Commit `3e6c80ee3c83125c5039d5f880075a82e2adf5ad` — chạy hai model local, thử prompt v4/v5, kiểm tra v5 trên cloud; có các run JSON, version log và mục B7.
+- Commit `41b6acfa2fb83f9a64eee1594c5d77c114a28ec6` — thêm 10 eval case nhóm, run group, dòng kết quả CSV và phần đánh giá trong B3/báo cáo cá nhân.
 - [Tool declarations](../../starter_v0/artifacts/tools.yaml), [version log](../../starter_v0/artifacts/version_log.csv) và [run v2](../../starter_v0/runs/v2_B_base_openrouter_20261110T184219913110.json).
 - [Prompt local v4](../../starter_v0/artifacts/system_prompt_local_v4.md), [prompt local v5](../../starter_v0/artifacts/system_prompt_local_v5.md); các run và bảng so sánh nằm ở [B7 báo cáo nhóm](group_report.md#b7-small-local-model-challenge-bonus).
 - [10 eval case nhóm](../../starter_v0/data/eval_group.json), [run group v3](../../starter_v0/runs/v3_B_group_openrouter_20261110T234627302520.json) và [B3 báo cáo nhóm](group_report.md#b3-team-eval-cases).

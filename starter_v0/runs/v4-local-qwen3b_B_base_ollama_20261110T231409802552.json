@@ -1,0 +1,1279 @@
+{
+  "run_id": "v4-local-qwen3b_B_base_ollama_20261110T231409802552",
+  "version": "v4-local-qwen3b",
+  "artifact_version": "v4-local-qwen3b+p5d8cd5a2cc7f+t837e452d8ec9",
+  "prompt_hash": "5d8cd5a2cc7f0305b2c68b558f30c78490b6c3ea94209dfcf37a4b8c783c5029",
+  "tools_hash": "837e452d8ec9791e830903d800026e8b00361bf6f2d0842baf00158d71af7aac",
+  "phase": "B",
+  "suite": "base",
+  "provider": "ollama",
+  "model": "qwen2.5:3b",
+  "system_prompt": "artifacts\\system_prompt_local_v4.md",
+  "tools": "artifacts\\tools_local_v4.yaml",
+  "eval_cases": "data\\eval_base.json",
+  "dataset_id": "day03_v2_research_base",
+  "dataset_role": "base",
+  "description": "Core eval cho research agent: routing đúng tool + đúng args, hỏi lại khi thiếu (ask_user), xác nhận trước khi gửi, và xử lý câu ngoài phạm vi / không cần tool. Chấm trên tool_calls + args (subset). KHÔNG sửa file này — chỉ thêm case vào eval_group.json.",
+  "generated_at": "2026-11-10T23:14:09",
+  "summary": {
+    "total_cases": 20,
+    "measured_cases": 20,
+    "provider_error_cases": 0,
+    "passed_cases": 5,
+    "case_accuracy": 0.25,
+    "tool_routing_accuracy": 0.5,
+    "argument_accuracy": 0.25,
+    "multiturn_accuracy": 0.1667,
+    "failure_counts": {
+      "wrong_tool": 4,
+      "wrong_arg_value": 6,
+      "out_of_scope": 1,
+      "missing_info": 3,
+      "wrong_boundary": 1
+    },
+    "observed_mismatch_counts": {
+      "missing_tool_call": 9,
+      "wrong_arg_value": 5,
+      "unexpected_tool_call": 1
+    }
+  },
+  "results": [
+    {
+      "id": "R01_user_tweets_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_user_tweets_name_to_handle",
+        "difficulty": "medium",
+        "what_it_tests": "Tin CỦA một người nổi tiếng → map tên Sam Altman thành handle sama rồi gọi get_user_tweets."
+      },
+      "input": "Tweet mới nhất của Sam Altman là gì?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "sama"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://twitter.com/samaltman/status/1602710360925740481"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "missing tool call timeline",
+          "extra tool call fetch"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://twitter.com/samaltman/status/1602710360925740481"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://twitter.com/samaltman/status/1602710360925740481",
+            "items": [
+              {
+                "title": "https://twitter.com/samaltman/status/1602710360925740481",
+                "url": "https://twitter.com/samaltman/status/1602710360925740481",
+                "source": "twitter.com",
+                "summary": "# X/Twitter Post\n\n## Post\n\n## Top Comments\n\nNo top comments were returned.\n"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R02_search_tweets_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_search_tweets",
+        "difficulty": "easy",
+        "what_it_tests": "Tweet theo CHỦ ĐỀ → search_tweets, không phải get_user_tweets."
+      },
+      "input": "Mọi người đang bàn gì về GPT-5 trên Twitter?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {}
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "GPT-5",
+              "topic": "general"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "GPT-5",
+            "topic": "general"
+          },
+          "result": {
+            "error": "TypeError",
+            "message": "search_tweets() got an unexpected keyword argument 'topic'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "R03_web_news_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_web_news",
+        "difficulty": "medium",
+        "what_it_tests": "Tin thời sự trên web → web_search topic=news, timeframe=day (hôm nay)."
+      },
+      "input": "Tin tức AI hôm nay có gì nổi bật?",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI today",
+              "max_results": 5
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "query: expected 'AI', got 'AI today'",
+          "topic: expected 'news', got None",
+          "timeframe: expected 'day', got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "AI today",
+            "max_results": 5
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "AI today",
+            "topic": "general",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "USA Today Co. blames AI for its revenue woes. It also sees AI as a solution. - Poynter",
+                "url": "https://www.poynter.org/business-work/2026/usa-today-co-ai-use-advertising-video",
+                "source": "poynter.org",
+                "summary": "USA Today Co. is also using AI to expand its video offerings, allowing it to grow video advertising, said Reed. The company aims to make all of its content available in video as well as text. It has also started creating branded advertising content on its platform that is AI-discoverable. [...] To build that foundation, USA Today Co. is cutting costs and leaning on AI. One of those initiatives is its controversial partnership with technology company Palantir, which USA Today Co. first announced in August. That deal has allowed the company to use AI-powered tools from Palantir to analyze data from customers and readers and identify ways to monetize them. Though unions at dozens of USA Today Co. newspapers have decried the partnership, Reed said the first “products” are now live and [...] “Because there’s so much crap and untrusted content out there on the AI platforms, it’s a real opportunity for us to partner with brands to create trusted messaging and to make that discoverable on AI platforms,” Reed said. \n\nBefore the end of the year, USA Today Co. plans to announce “at least one, possibly two” more content licensing deals with AI companies — another source of revenue, Reed said.",
+                "score": 0.65279555
+              },
+              {
+                "title": "Artificial intelligence in education - AI | UNESCO",
+                "url": "https://www.unesco.org/en/digital-education/artificial-intelligence",
+                "source": "unesco.org",
+                "summary": "Artificial Intelligence (AI) has the potential to address some of the biggest challenges in education today, innovate teaching and learning practices, and accelerate progress towards SDG 4. However, rapid technological developments inevitably bring multiple risks and challenges, which have so far outpaced policy debates and regulatory frameworks. UNESCO is committed to supporting Member States to harness the potential of AI technologies for achieving the Education 2030 Agenda, while ensuring [...] UNESCO’s mandate calls inherently for a human-centred approach to AI. It aims to shift the conversation to include AI’s role in addressing current inequalities regarding access to knowledge, research and the diversity of cultural expressions and to ensure AI does not widen the technological divides within and between countries. The promise of “AI for all” must be that everyone can take advantage of the technological revolution under way and access its fruits, notably in terms of innovation and [...] ## News\n\nNews\n\nGlobal Network on AI Supervision led by UNESCO pushes for practical cooperation\n\nNews\n\nUNESCO Santiago commemorated the 25th anniversary of the Information for All Programme (IFAP) with regional events on artificial intelligence and critical literacy with regional events on artificial intelligence and critical literacy\")\n\nNews\n\nAlmaty Brings Global Experts Together to Explore Future of Higher Education, Arts and AI\n\nNews",
+                "score": 0.61251885
+              },
+              {
+                "title": "🔴 LIVE: Microsoft Pulls Back From Oracle AI Compute Deal Today | Front Page",
+                "url": "https://www.youtube.com/watch?v=iSH8Vj6GoCI",
+                "source": "youtube.com",
+                "summary": "📌 ABOUT FRONT PAGE\n\nFront Page is a daily live news briefing covering AI, enterprise tech, semiconductors, and India’s role in the global technology economy. Built for people who make decisions, not just consume headlines.\n\n👋 ABOUT AIM NETWORK\nAIM Network is India's leading voice on the intersection of AI, Technology, and Business. We bring you sharp analysis, breaking news, and original perspectives on everything from Generative AI breakthroughs to geopolitical market shifts. [...] Also in this broadcast: Salesforce positioning Slack as a work platform for Indian businesses, Hexaware's five-year AI contract with the European Bank for Reconstruction and Development, India's 11th place in the Ayre Index of youth AI readiness, Coforge joining SpaceX's AI partner network to deploy Grok, LTM and ServiceNow expanding AI agent deployments, Anthropic's Claude Fable 5.2 and Mythos 5.2 launch, and SemiAnalysis's estimate of SpaceX's data centre buildout. [...] # 🔴 LIVE: Microsoft Pulls Back From Oracle AI Compute Deal Today | Front Page\n## Channel: AIM Network (verified)\n385K subscribers\n\n### Description\nMicrosoft is winding down its agreement to rent AI computing capacity from Oracle, while tightening oversight of neocloud infrastructure projects.",
+                "score": 0.49553296
+              },
+              {
+                "title": "When AI goes rogue, who should keep it in check? - Harvard Law School | Harvard Law School",
+                "url": "https://hls.harvard.edu/today/when-ai-goes-rogue-who-should-keep-it-in-check",
+                "source": "hls.harvard.edu",
+                "summary": "By Rachel Reed\n\nIn June 1945, two months before the United States dropped an atomic bomb on Japan, a group of Manhattan Project scientists warned that, without an international agreement limiting the manufacture and use of nuclear weapons, humanity could face “total mutual destruction.”\n\nToday, some tech and legal scholars believe we are at a similar turning point with artificial intelligence — and that without prompt regulation, humankind might again be in peril. [...] Ramakrishnan argued that, since the “proof of concept” attack on Hugging Face, many people who had previously been hesitant to regulate AI have changed their tune.\n\n“Even if you are very skeptical about the ‘literally everyone dead’ scenarios, the grounds for skepticism about truly catastrophic scenarios that are more prosaic, such as billions of people dead through pandemics — those are quickly evaporating,” he said. [...] “You will see almost as a throwaway that there is plenty of other crazy stuff, which [OpenAI] feels compelled to briefly mention, but which we still don’t really have a full view of,” he said. “Hundreds to thousands of agents are coordinating in extremely sophisticated swarms to cheat and deceive their monitors. They’re breaking out onto the open internet in order to execute a very sophisticated cheating research and development scheme, and then they’re returning in — and this is not an",
+                "score": 0.49362883
+              },
+              {
+                "title": "5 signs you are not going to be made obsolete by AI - Fast Company",
+                "url": "https://www.fastcompany.com/91634426/5-signs-you-are-not-going-to-be-made-obsolete-by-ai",
+                "source": "fastcompany.com",
+                "summary": "## Key indicators\n\nSo, how should you assess your employability and career success in today’s AI age, and what are some positive signs that you are unlikely to be automated or made obsolete by AI? As of today, here are five critical indicators to consider:\n\nDaily Newsletter logo\n\n| [...] expertise into new products and services, identify unmet customer needs, or experiment with business models that would have been too expensive or time-consuming to test before. In that sense, AI is not just a tool for doing existing things faster or cheaper, but an opportunity to do things that were previously impossible, or at least economically unviable. The critical difference, of course, is that while AI makes it easier than ever to execute an idea, it does not necessarily make people [...] where others don’t, and they are quicker than others to act on those potential opportunities by bridging the gap between demand and supply. For example, in the AI age, a single individual can now launch a business that would previously have required a small army of employees, using AI to conduct market research, develop products, build websites, create marketing campaigns, manage customer relationships, and even provide customer support. Likewise, professionals can turn their expertise into new",
+                "score": 0.3333301
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R04_read_url_routing",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_read_url",
+        "difficulty": "easy",
+        "what_it_tests": "Đã có link cụ thể → read_url, không phải web_search."
+      },
+      "input": "Tóm tắt bài này giúp mình: https://openai.com/blog/gpt-5",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://openai.com/blog/gpt-5"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://openai.com/blog/gpt-5",
+            "items": [
+              {
+                "title": "OpenAI",
+                "url": "https://openai.com/blog/gpt-5",
+                "source": "openai.com",
+                "summary": "OpenAI\n\n# 404\n\nOne stitch has slipped loose\n\nThe pattern still holds its shape\n\nPick up a new thread\n\nby [gpt-6-astra(opens in a new window)](https://chatgpt.com/?surface=work&model=gpt-6-astra-wm&openaicom-did=76539789-7839-4902-a1db-f8507060b1b0&openaicom_referred=true)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R05_limit_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_limit",
+        "difficulty": "easy",
+        "what_it_tests": "Trích đúng limit=10 từ '10 tweet'."
+      },
+      "input": "Lấy 10 tweet mới nhất của Elon Musk",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 10
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=10&tweet_mode=extended"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "missing tool call timeline",
+          "extra tool call fetch"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=10&tweet_mode=extended"
+          },
+          "result": {
+            "tool": "read_url",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://api.firecrawl.dev/v1/scrape"
+          }
+        }
+      ]
+    },
+    {
+      "id": "R06_timeframe_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_timeframe",
+        "difficulty": "medium",
+        "what_it_tests": "'tuần này' → timeframe=week."
+      },
+      "input": "Tin công nghệ trong tuần này",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "topic": "news",
+              "timeframe": "week"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "Tin công nghệ trong tuần này"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "topic: expected 'news', got None",
+          "timeframe: expected 'week', got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "Tin công nghệ trong tuần này"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "Tin công nghệ trong tuần này",
+            "topic": "general",
+            "timeframe": "week",
+            "items": [
+              {
+                "title": "Cổ phiếu công nghệ hồi phục sau đợt sụt giảm mạnh trong tuần trước",
+                "url": "https://baotintuc.vn/co-phieu-cong-nghe-hoi-phuc-sau-dot-sut-giam-manh-trong-tuan-truoc-post1401233.html",
+                "source": "baotintuc.vn",
+                "summary": "Bà Sally Auld, chuyên gia tại ngn hàng National Australia Bank, nhận định trong tuần này, các nhà đầu tư sẽ theo dõi sát sao để xác định xem đà tăng hiện tại chỉ đơn thuần là nhờ hoạt động mua vào khi giá thấp hay là khởi đầu cho một xu hướng bền vững hơn. Những lo ngại về quy định đối với lĩnh vực AI, cùng với triển vọng về chi tiêu vốn và dòng tiền tự do, là các yếu tố thúc đẩy xu hướng giảm thiểu rủi ro trong những tuần gần đy. Nhiều khả năng, các vấn đề này sẽ chưa thể sớm được giải quyết [...] Trong tuần này, các nhà đầu tư sẽ theo dõi sát sao số liệu lạm phát mới nhất từ Mỹ, sau khi báo cáo công bố cuối tuần trước cho thấy nền kinh tế nước này đã tạo ra số lượng việc làm trong tháng 10/2026 vượt xa dự báo. Những số liệu này sẽ đóng vai trò then chốt để Cục Dự trữ liên bang Mỹ (Fed) quyết định xem có tăng lãi suất trong cuộc họp tiếp theo vào tháng 12 tới hay không. Các nhà giao dịch dự báo khả năng Fed nng lãi suất là 80%. [...] ## Vietjet mở rộng cầu nối Việt Nam – Nhật Bản với đường bay mới Đà Nẵng – Osaka\n\nChagee đưa bản sắc Việt Nam vào hành trình kết nối qua Văn hóa Trà  \n\n## Chagee đưa bản sắc Việt Nam vào hành trình kết nối qua Văn hóa Trà\n\nFPT đề xuất hợp tác với Nhật Bản về AI, công nghệ lượng tử  \n\n## FPT đề xuất hợp tác với Nhật Bản về AI, công nghệ lượng tử\n\nDe Heus - Hùng Nhơn thúc đẩy chuỗi dự án trị giá 18.300 tỷ đồng  \n\n## De Heus - Hùng Nhơn thúc đẩy chuỗi dự án trị giá 18.300 tỷ đồng",
+                "score": 0.6803909
+              },
+              {
+                "title": "1.6K views | Trong phiên giao dịch đầu tuần, cổ phiếu Nvidia giảm mạnh, trái ngược với đà phục hồi của các chỉ số chứng khoán Mỹ và nhóm cổ phiếu công nghệ. Diễn biến này xuất hiện sau những thông tin liên quan đến đời tư của Giám đốc điều hành Nvidia Jensen Huang. | Báo điện tử VTV",
+                "url": "https://www.facebook.com/baodientuvtv/posts/trong-phi%C3%AAn-giao-d%E1%BB%8Bch-%C4%91%E1%BA%A7u-tu%E1%BA%A7n-c%E1%BB%95-phi%E1%BA%BFu-nvidia-gi%E1%BA%A3m-m%E1%BA%A1nh-tr%C3%A1i-ng%C6%B0%E1%BB%A3c-v%E1%BB%9Bi-%C4%91%C3%A0-ph%E1%BB%A5c-/1562903065884231",
+                "source": "facebook.com",
+                "summary": "bốc cháy dữ dội. Chiều 10/11, cơ quan chức năng TP. Hồ Chí Minh đang điều tra nguyên nhân vụ cháy tàu sắt đang neo đậu tại cảng Phước Tỉnh, gần cầu Cửa Lấp, xã Phước Hải. Theo thông tin ban đầu, khoảng 10h30 cùng ngày, chiếc tàu bất ngờ bốc cháy. Người dân tìm cách dập lửa nhưng không thành. Ngọn lửa nhanh chóng lan rộng, bao trùm toàn bộ tàu. Nhận tin báo, lực lượng Cảnh sát PCCC và CNCH (PC07, Công an TP. Hồ Chí Minh) huy động xe chữa cháy cùng cán bộ, chiến sĩ đến hiện trường, phối hợp với [...] tài sản trên tầng 3 căn nhà bị thiêu rụi, hư hỏng nặng. Lực lượng chữa cháy đã khống chế ngọn lửa, không để cháy lan sang các căn nhà lân cận trong hẻm. [...] [](\n\nMưa lớn kéo dài suốt đêm tại Thanh Hóa khiến nước sông dâng cao, gây sập mố cầu Bái Sim trên tuyến đường Nghi Sơn - Bãi Trành, một trong những tuyến giao thông huyết mạch của tỉnh.\n\nBáo điện tử VTV\n\n85.6K views\n\n · \n\n1d ago\n\nImage 24: Video thumbnail 0:41\n\n[](\n\nNgày 8/11, Tổng thống Mỹ Donald Trump cho biết khả năng Washington tiếp tục tiến hành các cuộc không kích nhằm vào Iran là rất thấp nếu các cuộc đàm phán giữa hai bên đạt được tiến triển.\n\nBáo điện tử VTV\n\n48.2K views\n\n · \n\n1d ago",
+                "score": 0.5492786
+              },
+              {
+                "title": "AI\\ : Alphabet lên kế hoạch gọi vốn kỷ lục, 4 Big Tech được dự báo chi lượng tiền gấp 2 lần GDP Việt Nam cho AI: Thấy gì từ \"cuộc đua\" này?",
+                "url": "https://cafef.vn/ai.html",
+                "source": "cafef.vn",
+                "summary": "02/11/2026 13:48\n\nDu lịch Nhật Bản luôn hấp dẫn, nhưng rào cản ngôn ngữ tại các quán ăn địa phương lại là nỗi ám ảnh lớn. MENU-PAAN, một ứng dụng AI đột phá, ra đời để giải quyết triệt để vấn đề này, biến các thực đơn viết tay thành thông tin dễ hiểu.\n\nChùa ảo Hàn Quốc vừa nổi, Đài Loan đã có miếu Ma Tổ online, sáng sớm đã chật kín người xếp hàng chờ  \n\n### Chùa ảo Hàn Quốc vừa nổi, Đài Loan đã có miếu Ma Tổ online, sáng sớm đã chật kín người xếp hàng chờ \"gieo quẻ, xin xăm\"\n\n02/11/2026 09:00 [...] 02/11/2026 09:00\n\nChưa đầy một tuần sau khi ngôi chùa online Sansa làm nghẽn server ở Hàn Quốc, Đài Loan đã có miếu Ma Tổ ảo cho gieo quẻ m dương, xin xăm, còn người Công giáo có nhà thờ ảo để thắp nến. Thứ các sản phẩm này bán không phải tín ngưỡng, mà là quyền được ngồi yên mà không ai đòi hỏi gì.\n\nĐại diện FPT đề xuất hợp tác với doanh nghiệp Nhật Bản phát triển AI cho khu vực công Việt Nam \n\n### Đại diện FPT đề xuất hợp tác với doanh nghiệp Nhật Bản phát triển AI cho khu vực công Việt Nam [...] ### Việt Nam đón 'đại bàng' công nghệ Hàn Quốc rót gần 4 tỷ USD xy tổ hợp sản xuất chip nhớ, rộng bằng 37 sn bóng đá, 2 nhà máy dự kiến hoạt động từ năm 2027\n\n07/11/2026 00:05\n\nSamsung đang xy dựng cơ sở kiểm thử chip nhớ tại Thái Nguyên, với tổng vốn dự kiến 3,9 tỷ USD. Nhà máy xử lý DRAM và NAND trước khi giao cho khách hàng toàn cầu.\n\nMở rộng 'lá chắn' bảo vệ giao dịch tài chính số \n\n### Mở rộng 'lá chắn' bảo vệ giao dịch tài chính số\n\n06/11/2026 23:09",
+                "score": 0.44912744
+              },
+              {
+                "title": "Tin tức Sự kiện | Cổng Thông tin điện tử Bộ Khoa học và Công nghệ",
+                "url": "https://mst.gov.vn/tin-tuc-su-kien.htm",
+                "source": "mst.gov.vn",
+                "summary": "Bỏ qua đến nội dung chính\n\nBỘ KHOA HỌC VÀ CÔNG NGHỆ \n\nBỘ KHOA HỌC VÀ CÔNG NGHỆ Ministry of Science and Technology\n\nTiếng Việt English\n\nThứ ba, 10/11/2026\n\nDanh mục\n\n Trang chủ\n Giới thiệu  arrow-drop-down\n\n  Chức năng nhiệm vụ Cơ cấu tổ chức Lịch sử phát triển Sở Khoa học và Công nghệ\n Tin tức sự kiện  arrow-drop-down [...] ## Phát triển AI lấy con người làm trung tm, thúc đẩy hợp tác quốc tế\n\nTại Phiên bàn tròn Bộ trưởng Số và AI trong khuôn khổ Tuần lễ Số Quốc tế Việt Nam 2026, đại diện nhiều quốc gia và tổ chức quốc tế đã chia sẻ kinh nghiệm, định hướng chính sách và những ưu tiên trong phát triển, ứng dụng trí tuệ nhn tạo an toàn, hiệu quả và lấy con người làm trung tm.\n\nChương trình NEXUS giai đoạn 2025-2026 tài trợ 11 dự án nghiên cứu với tổng giá trị gần 500 tỷ đồng [...] ### Chương trình NEXUS giai đoạn 2025-2026 tài trợ 11 dự án nghiên cứu với tổng giá trị gần 500 tỷ đồng\n\nNgày 09/11/2026, tại Tokyo, trong khuôn khổ Diễn đàn công tư về hợp tác kinh tế, khoa học và công nghệ Việt Nam – Nhật Bản, Bộ KH&CN Việt Nam và Bộ Giáo dục, Văn hóa, Thể thao, Khoa học và Công nghệ Nhật Bản (MEXT) đã trao văn kiện tài trợ 11 dự án hợp tác nghiên cứu thuộc Chương trình NEXUS.\n\nLm Đồng đưa tuyên truyền về an ninh phi truyền thống lên nền tảng số",
+                "score": 0.38262632
+              },
+              {
+                "title": "Chuyển biến trong phát triển khoa học, công nghệ sau gần 2 năm thực hiện Nghị quyết 57",
+                "url": "https://nhandan.vn/chuyen-bien-trong-phat-trien-khoa-hoc-cong-nghe-sau-gan-2-nam-thuc-hien-nghi-quyet-57-post1001290.html",
+                "source": "nhandan.vn",
+                "summary": "Nghị quyết 57 khoa học công nghệ đổi mới sáng tạo chuyển đổi số hạ tầng số trí tuệ nhn tạo công nghệ Việt Nam  Chuyên trang TP. Hà Nội\n\n### Tin đọc nhiều\n\n## Khởi tố, bắt tạm giam “Hiệp đen” cùng 13 đối tượng liên quan\n\n## Đà Nẵng: Bắt hai lãnh đạo doanh nghiệp lừa đảo chiếm đoạt hơn 430 tỷ đồng\n\n## [[Video] Đã bắt được Hồ Văn Tình, phạm nhn cuối cùng vụ trốn khỏi Trại giam A2]( \"[Video] Đã bắt được Hồ Văn Tình, phạm nhn cuối cùng vụ trốn khỏi Trại giam A2\") [...] Hội nghị quốc tế Đông Nam Á về Lưới điện thông minh lần thứ 9 (The 9th ASEAN Smart Grid Congress-ASGC9) sẽ diễn ra trong 3 ngày 5-7/11 tại Hà Nội. (Ảnh: LÊ CHI)  \n\n## Phát triển lưới điện thông minh trong bài toán tích hợp năng lượng tái tạo\n\nGiáo sư Vũ Hà Văn, Giám đốc Khoa học Viện Nghiên cứu Dũ liệu lớn, trường Đại học VinUni chia sẻ về dự án. (Ảnh: VinUni)  \n\n## Giải mã 1.000 hệ gene lúa Việt, tìm nguồn gene quý [...] Toàn cảnh tọa đàm. (Ảnh: Ban tổ chức cung cấp)  \n\n## Người trẻ bảo vệ quyền riêng tư, dữ liệu cá nhn trên không gian số\n\nKỹ sư Viettel nghiên cứu phát triển sản phẩm công nghệ chiến lược. (Ảnh: ĐỨC THỌ)  \n\n## Cải thiện chỉ số đổi mới sáng tạo từ công nghệ chiến lược\n\nTổng Bí thư, Chủ tịch nước Tô Lm và các đại biểu. (Ảnh: TTXVN)  \n\n## Tổng Bí thư, Chủ tịch nước Tô Lm gặp mặt chuyên gia, trí thức Việt Nam tại Nhật Bản\n\nLễ ra mắt FPT AI Factory tại Nhật Bản. (Ảnh: FPT)",
+                "score": 0.31377763
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R07_search_type_arg",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "arg_search_type",
+        "difficulty": "medium",
+        "what_it_tests": "'phổ biến/top' → search_type=Top (không phải Latest)."
+      },
+      "input": "Cho mình các tweet phổ biến (top) nhất về OpenAI",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "search_type": "Top"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "social_search",
+            "args": {
+              "query": "OpenAI",
+              "timeframe": "day"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "search_type: expected 'Top', got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "social_search",
+          "args": {
+            "query": "OpenAI",
+            "timeframe": "day"
+          },
+          "result": {
+            "error": "TypeError",
+            "message": "search_tweets() got an unexpected keyword argument 'timeframe'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "R08_out_of_scope",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope",
+        "difficulty": "easy",
+        "what_it_tests": "Câu ngoài phạm vi research → KHÔNG gọi tool, từ chối/định hướng."
+      },
+      "input": "Giải giúp mình bài toán tích phân: nguyên hàm của x^2 là gì?",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "giải giúp mình bài toán tích phân: nguyên hàm của x^2 là gì?"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": "unexpected_tool_call",
+        "failure_type": "out_of_scope",
+        "failures": [
+          "expected no tool call"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "text_stats",
+          "args": {
+            "text": "giải giúp mình bài toán tích phân: nguyên hàm của x^2 là gì?"
+          },
+          "result": {
+            "tool": "text_stats",
+            "status": "ok",
+            "word_count": 13,
+            "char_count": 60,
+            "estimated_reading_seconds": 3.9,
+            "items": [
+              {
+                "title": "Text Statistics",
+                "word_count": 13,
+                "char_count": 60,
+                "wpm": 200,
+                "estimated_reading_seconds": 3.9,
+                "snippet": "13 words, 60 chars (~3.9s read at 200 wpm)."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R09_no_tool_capability",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "no_tool_meta",
+        "difficulty": "easy",
+        "what_it_tests": "Câu hỏi meta → trả lời thẳng, KHÔNG gọi tool."
+      },
+      "input": "Bạn là gì và làm được những gì?",
+      "expect": {
+        "no_tool": true,
+        "behavior": "answer_without_tool"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "Tôi là một trợ lý AI được thiết kế để hỗ trợ bạn trong nhiều tác vụ khác nhau. Tôi có thể tìm kiếm thông tin trên internet, tra cứu thông tin từ các tài liệu nội bộ, phân tích văn bản, và thậm chí gửi thông tin qua Telegram. Bạn chỉ cần cung cấp chi tiết về những gì bạn cần tôi làm.",
+        "case_failure_type": "unnecessary_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "R10_missing_handle",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_handle",
+        "difficulty": "medium",
+        "what_it_tests": "Thiếu handle → ask_user, KHÔNG đoán bừa người nào."
+      },
+      "input": "Tóm tắt 5 tweet mới nhất giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://twitter.com/username/home_timeline?since_id=latest_id&count=5"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call clarify",
+          "extra tool call fetch"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://twitter.com/username/home_timeline?since_id=latest_id&count=5"
+          },
+          "result": {
+            "tool": "read_url",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://api.firecrawl.dev/v1/scrape"
+          }
+        }
+      ]
+    },
+    {
+      "id": "R11_missing_url",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "clarify_missing_url",
+        "difficulty": "medium",
+        "what_it_tests": "Nói 'bài này' nhưng không có link → ask_user xin URL."
+      },
+      "input": "Tóm tắt bài viết này hộ mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "text_stats",
+            "args": {
+              "text": "Bài viết của bạn"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call clarify",
+          "extra tool call text_stats"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "text_stats",
+          "args": {
+            "text": "Bài viết của bạn"
+          },
+          "result": {
+            "tool": "text_stats",
+            "status": "ok",
+            "word_count": 4,
+            "char_count": 16,
+            "estimated_reading_seconds": 1.2,
+            "items": [
+              {
+                "title": "Text Statistics",
+                "word_count": 4,
+                "char_count": 16,
+                "wpm": 200,
+                "estimated_reading_seconds": 1.2,
+                "snippet": "4 words, 16 chars (~1.2s read at 200 wpm)."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "R12_confirm_before_send",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "confirm_before_write",
+        "difficulty": "medium",
+        "what_it_tests": "Hành động ghi (gửi) → xác nhận trước (ask_user yes_no), không tự gửi."
+      },
+      "input": "Đăng bản tin này lên Telegram giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "send",
+            "args": {
+              "confirmed": false,
+              "text": "Đăng bản tin này lên Telegram giúp mình"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_boundary",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_boundary",
+        "failures": [
+          "missing tool call clarify",
+          "extra tool call send"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "send",
+          "args": {
+            "confirmed": false,
+            "text": "Đăng bản tin này lên Telegram giúp mình"
+          },
+          "result": {
+            "tool": "send_telegram",
+            "status": "needs_confirmation",
+            "message": "Only send after the user explicitly confirms."
+          }
+        }
+      ]
+    },
+    {
+      "id": "R13_parallel_web_and_tweets",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "parallel_tool_calls",
+        "difficulty": "hard",
+        "what_it_tests": "Một request cần hai nguồn → gọi cả web_search và search_tweets; eval không phụ thuộc thứ tự tool call."
+      },
+      "input": "Tìm trên web tin AI hôm nay và tìm thêm tweet về AI.",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "AI",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          },
+          {
+            "name": "social_search",
+            "args": {
+              "query": "AI"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {}
+          },
+          {
+            "name": "social_search",
+            "args": {}
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "query: expected 'AI', got None",
+          "topic: expected 'news', got None",
+          "timeframe: expected 'day', got None",
+          "query: expected 'AI', got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {},
+          "result": {
+            "tool": "web_search",
+            "error": "HTTPError",
+            "message": "400 Client Error: Bad Request for url: https://api.tavily.com/search"
+          }
+        },
+        {
+          "tool": "social_search",
+          "args": {},
+          "result": {
+            "tool": "search_tweets",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://twitter-api45.p.rapidapi.com/search.php?query=&search_type=Latest"
+          }
+        }
+      ]
+    },
+    {
+      "id": "R14_out_of_scope_coding",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "out_of_scope_coding",
+        "difficulty": "easy",
+        "what_it_tests": "Câu coding ngoài phạm vi research/news → KHÔNG gọi tool."
+      },
+      "input": "Viết giúp mình một hàm Python tính Fibonacci bằng recursion.",
+      "expect": {
+        "no_tool": true,
+        "behavior": "refuse"
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [],
+        "actual_text": "",
+        "case_failure_type": "out_of_scope",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": []
+    },
+    {
+      "id": "M01_clarify_then_fill",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_fill",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: carry limit=5 từ lượt 1 + map tên Elon Musk thành handle elonmusk từ lượt 2."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt 5 tweet mới nhất giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Của Elon Musk nhé"
+        },
+        {
+          "role": "user",
+          "content": "Giữ đúng 5 tweet, đừng đổi số lượng"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "missing_info",
+        "failures": [
+          "missing tool call timeline"
+        ]
+      },
+      "tool_results": []
+    },
+    {
+      "id": "M02_carryover_timeframe",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_carryover",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: chỉ xử lý latest turn, carry timeframe=day và topic=news, query robotics."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tin AI hôm nay có gì?"
+        },
+        {
+          "role": "user",
+          "content": "Còn về robotics thì sao?"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ tìm robotics thôi, vẫn là tin hôm nay"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "robotics",
+              "topic": "news",
+              "timeframe": "day"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": true,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "lookup",
+            "args": {}
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "wrong_arg_value",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "query: expected 'robotics', got None",
+          "topic: expected 'news', got None",
+          "timeframe: expected 'day', got None"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "lookup",
+          "args": {},
+          "result": {
+            "tool": "web_search",
+            "error": "HTTPError",
+            "message": "400 Client Error: Bad Request for url: https://api.tavily.com/search"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M03_correction_handle",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: map tên thường, sửa Sam Altman→Andrej Karpathy, dùng handle karpathy và limit=3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tweet mới nhất của Sam Altman"
+        },
+        {
+          "role": "user",
+          "content": "À nhầm, của Andrej Karpathy"
+        },
+        {
+          "role": "user",
+          "content": "Lấy 3 tweet mới nhất nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "karpathy",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://twitter.com/search?q=from%3AAndrejKarpathy+from%3ASamAltman+from%3AAndrejKarpathy+from%3ASamAltman+since%3A2023-01-01+until%3A2023-01-31&max_results=3"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "missing tool call timeline",
+          "extra tool call fetch"
+        ]
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://twitter.com/search?q=from%3AAndrejKarpathy+from%3ASamAltman+from%3AAndrejKarpathy+from%3ASamAltman+since%3A2023-01-01+until%3A2023-01-31&max_results=3"
+          },
+          "result": {
+            "tool": "read_url",
+            "error": "HTTPError",
+            "message": "403 Client Error: Forbidden for url: https://api.firecrawl.dev/v1/scrape"
+          }
+        }
+      ]
+    },
+    {
+      "id": "M04_clarify_then_url",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_clarify_url",
+        "difficulty": "medium",
+        "what_it_tests": "3 turns: sau khi được cung cấp URL, latest turn xác nhận chỉ đọc link đó → read_url đúng url."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Tóm tắt bài này hộ mình"
+        },
+        {
+          "role": "user",
+          "content": "https://anthropic.com/news/claude"
+        },
+        {
+          "role": "user",
+          "content": "Chỉ đọc đúng link đó thôi"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://anthropic.com/news/claude"
+            }
+          }
+        ],
+        "actual_text": "",
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://anthropic.com/news/claude"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://anthropic.com/news/claude",
+            "items": [
+              {
+                "title": "https://anthropic.com/news/claude",
+                "url": "https://anthropic.com/news/claude",
+                "source": "anthropic.com",
+                "summary": "[Skip to main content](https://www.anthropic.com/news/claude#main-content)\n\nA 404 poem byClaude Fable 5.2Claude Opus 5.5Claude Sonnet 5.5Claude Haiku 5.5\n\nA baker moved away,"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "M05_correction_limit",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_arg_correction",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: map tên Elon Musk, carry handle elonmusk, sửa limit 10→3."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 10 tweet mới nhất của Elon Musk"
+        },
+        {
+          "role": "user",
+          "content": "Cho mình 3 thôi"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn của Elon Musk nhé"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "timeline",
+            "args": {
+              "screenname": "elonmusk",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [],
+        "actual_text": "",
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_arg_value",
+        "failures": [
+          "missing tool call timeline"
+        ]
+      },
+      "tool_results": []
+    },
+    {
+      "id": "M06_switch_tool",
+      "phase": "B",
+      "suite": "base",
+      "case_suite": "base",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_switch_tool",
+        "difficulty": "hard",
+        "what_it_tests": "3 turns: explicitly bỏ Twitter, chuyển sang web_search news, giữ chủ đề OpenAI."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Mọi người nói gì về OpenAI trên Twitter?"
+        },
+        {
+          "role": "user",
+          "content": "Bỏ Twitter, chuyển sang tìm trên web tin tức đi"
+        },
+        {
+          "role": "user",
+          "content": "Giữ chủ đề OpenAI"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI",
+              "topic": "news"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": false,
+        "routing_correct": false,
+        "args_correct": false,
+        "actual_tool_calls": [],
+        "actual_text": "",
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": "missing_tool_call",
+        "failure_type": "wrong_tool",
+        "failures": [
+          "missing tool call lookup"
+        ]
+      },
+      "tool_results": []
+    }
+  ]
+}

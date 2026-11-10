@@ -144,29 +144,48 @@ Test challenge: Đã hoàn thiện toàn bộ 14 stubs trong `starter_v0/tests/t
 
 ### B7. Small Local Model Challenge (bonus)
 
-Chỉ điền nếu nhóm làm bonus này.
+Nhóm chạy hai model local khác kích thước: **Qwen 2.5 7B** và **Qwen 2.5 3B** qua Ollama. Sau đó thử hai vòng tối ưu trên 3B và chạy bản v5 trên cloud để kiểm tra ngược. Các run trong bảng đều đo đủ **20/20 case**, không có lỗi provider. Các điểm dưới đây là phần trăm.
 
 | Version | Model (provider) | Prompt/Tools | case_accuracy | tool_routing | argument | multiturn | Run File |
-|---|---|---|---|---|---|---|---|
-| v3 | (cloud) | v3 |  |  |  |  |  |
-| v3-<model> | (ollama) | v3 |  |  |  |  |  |
-| v3-<model> | (ollama) | v3 |  |  |  |  |  |
-| v4-local |  |  |  |  |  |  |  |
-| v5-local |  |  |  |  |  |  |  |
+|---|---|---|---:|---:|---:|---:|---|
+| v3 | nvidia/nemotron-3.5-super-vl:free (openrouter) | v3 cloud | 95.00% | 100.00% | 95.00% | 100.00% | [v3_B_base_openrouter_20261110T190653600689.json](../../starter_v0/runs/v3_B_base_openrouter_20261110T190653600689.json) |
+| v3-qwen7b | qwen2.5:7b (ollama) | v3 local baseline | 85.00% | 85.00% | 85.00% | 100.00% | [v3-qwen7b_B_base_ollama_20261110T221831415809.json](../../starter_v0/runs/v3-qwen7b_B_base_ollama_20261110T221831415809.json) |
+| v3-qwen3b | qwen2.5:3b (ollama) | v3 local baseline | 60.00% | 70.00% | 60.00% | 66.67% | [v3-qwen3b_B_base_ollama_20261110T230616136972.json](../../starter_v0/runs/v3-qwen3b_B_base_ollama_20261110T230616136972.json) |
+| v4-local-qwen3b | qwen2.5:3b (ollama) | local v4 | 25.00% | 50.00% | 25.00% | 16.67% | [v4-local-qwen3b_B_base_ollama_20261110T231409802552.json](../../starter_v0/runs/v4-local-qwen3b_B_base_ollama_20261110T231409802552.json) |
+| v5-local-qwen3b | qwen2.5:3b (ollama) | local v5 | 70.00% | 70.00% | 70.00% | 83.33% | [v5-local-qwen3b_B_base_ollama_20261110T231815632353.json](../../starter_v0/runs/v5-local-qwen3b_B_base_ollama_20261110T231815632353.json) |
+| v5-local-cloud | nvidia/nemotron-3.5-super-vl:free (openrouter) | local v5 | 95.00% | 100.00% | 95.00% | 100.00% | [v5-local-cloud_B_base_openrouter_20261110T233320041735.json](../../starter_v0/runs/v5-local-cloud_B_base_openrouter_20261110T233320041735.json) |
 
-Lỗi đặc thù của model nhỏ (đếm từ run JSON):
+**Lưu ý khi so sánh:** Hai baseline local có cùng prompt hash `131a920b599e` và tools hash `837e452d8ec9`, nhưng khác run v3 cloud (`dd22a4e2a8aa` / `141d5f5ff0e9`). Vì vậy, chênh lệch với v3 cloud chưa thể quy hoàn toàn cho model. Các run local v3–v5 giữ nguyên tools hash; v5 local và v5 cloud có cùng cả prompt/tools hash. Bản v3 cloud không bị sửa khi tạo các file local riêng.
 
-| Failure Pattern | Count | Example Case | Fix Tried | Helped? |
-|---|---|---|---|---|
-| wrong / hallucinated tool |  |  |  |  |
-| invalid JSON args (`_invalid_json_arguments`) |  |  |  |  |
-| no tool call / answered directly |  |  |  |  |
-| missed `clarify` |  |  |  |  |
-| repeated / unnecessary calls |  |  |  |  |
+**Lỗi của baseline local (đếm theo case trong run JSON):**
 
-- Cái gì giúp model nhỏ gọi tool đúng hơn nhất? Bằng chứng?
-- Bản prompt tối ưu cho local chạy trên model cloud thì sao?
-- Khi nào nhóm sẽ chọn model local thay vì cloud cho agent này?
+| Failure Pattern | Qwen 7B | Qwen 3B | Example Case | Fix Tried | Helped? |
+|---|---:|---:|---|---|---|
+| Chọn sai tool thay tool cần dùng | 1 | 3 | 7B: R10; 3B: R10, R13, M06 | v4 nhấn mạnh clarify; v5 rút gọn routing | Chưa sửa được các case này |
+| Bịa tên tool không được khai báo | 0 | 0 | Không ghi nhận | Giữ nguyên bộ tools | Chưa có lỗi để đánh giá |
+| JSON args lỗi (`_invalid_json_arguments`) | 0 | 0 | Không ghi nhận | Giữ nguyên bộ tools | Chưa có lỗi để đánh giá |
+| Không gọi tool, chỉ hỏi bằng text | 2 | 2 | R11, R12 | v4 yêu cầu gọi clarify thực tế | Không; v4/v5 chuyển sang gọi sai tool |
+| Bỏ qua tool clarify cần gọi | 3 | 3 | R10, R11, R12 | v4 thêm quy tắc clarify, v5 viết ngắn hơn | Cả ba case vẫn fail |
+| Gọi thừa khi phải không dùng tool | 0 | 1 | 3B: R14 gọi clarify cho câu coding ngoài phạm vi | v5 giữ quy tắc không gọi tool | Chưa cải thiện |
+| Lặp cùng tên tool trong một case | 0 | 0 | Không ghi nhận | v5 nhắc tránh gọi lặp | Chưa có lỗi để đánh giá |
+| Sai/thiếu giá trị args ở tool đúng | 0 | 2 | 3B: R06, M02 | v5 nêu ngắn gọn topic=news và giữ ngữ cảnh | Có, cả hai case pass ở v5 |
+
+Các nhóm trên có giao nhau, không cộng để tính tổng case fail. “Gọi thừa” ở đây chỉ đếm case yêu cầu không dùng tool; gọi sai tool thay thế được tính ở hàng đầu. Bảng dựa trên `actual_tool_calls`, `actual_text` và `failures`, không chỉ dựa vào nhãn `failure_type` có sẵn.
+
+So với những case cloud v3 pass, 7B fail thêm **R10, R11**; 3B fail thêm **R06, R10, R11, R13, R14, M02, M06**. R12 là case cả cloud và local đều fail nhưng khác biểu hiện: local hỏi bằng text, cloud gọi clarify với `response_type="text"` thay vì `"yes_no"`.
+
+**Hai vòng tối ưu đã thử:**
+
+- **v4-local — giả thuyết:** nhấn mạnh phải gọi clarify qua giao diện tool sẽ giảm việc hỏi bằng text hoặc đoán thông tin. Nhóm thêm phần hướng dẫn này vào `system_prompt_local_v4.md`, dùng `tools_local_v4.yaml` là bản sao tools baseline. Kết quả giảm từ **60% xuống 25%**, ba case R10–R12 vẫn fail. Giả thuyết chưa được kết quả ủng hộ.
+- **v5-local — giả thuyết:** prompt ngắn và ít lặp giúp model nhỏ làm đúng hơn. Nhóm rút prompt v4 từ **739 xuống 322 từ**, giữ các quy tắc routing, tham số, xác nhận và cùng bộ tools. Kết quả tăng từ **25% lên 70%**, cao hơn baseline **10 điểm phần trăm**. V5 không dùng bộ ví dụ hội thoại few-shot riêng; thay đổi chính là cách viết prompt ngắn gọn hơn.
+
+**Điều gì giúp model nhỏ nhất?** Trong các lần chạy này, bản prompt rút gọn v5 cho kết quả tốt nhất trên 3B. So với baseline, v5 sửa được R06 và M02 nhờ điền đúng `topic="news"`; điểm hội thoại nhiều lượt tăng từ **66,67% lên 83,33%**. Routing vẫn **70%**, nên cải thiện chủ yếu nằm ở tham số và giữ ngữ cảnh. Đây là bằng chứng cho bản v5 đã thử, chưa đủ để kết luận mọi prompt ngắn đều tốt hơn.
+
+V5 vẫn fail **R10, R11, R12, R13, R14, M06**. Dù tập case fail ít hơn baseline, hành vi R11/R12 xấu đi: R11 tự tạo URL để gọi fetch; R12 gọi `send(confirmed=false)` thay vì clarify. Tool send trả `needs_confirmation`, nên run này **không cho thấy tin đã được gửi**. Không nên dùng điểm tổng cao hơn để bỏ qua các lỗi này.
+
+**Kiểm tra ngược trên cloud:** Bản local v5 đạt **95%**, bằng v3 cloud; routing **100%**, argument **95%**, multiturn **100%**. Cloud vẫn fail R12 do hỏi nội dung với `response_type="text"` thay vì xác nhận `"yes_no"`. Như vậy v5 giữ được điểm cloud trong lần chạy này, nhưng chưa phải bản giải quyết tốt mọi boundary cho cả hai loại model. Run cloud hiện có là kết quả sau khi chạy lại, đủ 20 case và không còn lỗi provider; không dùng điểm từ lượt bị quota trước đó để kết luận.
+
+**Khi nào chọn local?** Local phù hợp để thử nghiệm hoặc xử lý yêu cầu nghiên cứu đơn giản khi muốn giảm việc gửi dữ liệu tới model cloud. Trong baseline cùng artifact, 7B đạt 85%, cao hơn 3B 60%; tuy nhiên chưa chạy v5 trên 7B nên chưa biết bản đó cải thiện bao nhiêu. Với yêu cầu thiếu thông tin hoặc gửi nội dung ra ngoài, cả hai local vẫn cần được kiểm tra kỹ và có người xác nhận. Các tool tìm kiếm của lab vẫn gọi dịch vụ bên ngoài, nên dùng model local không đồng nghĩa toàn bộ luồng chạy offline.
 
 ## 5. Khó khăn và cách xử lý
 

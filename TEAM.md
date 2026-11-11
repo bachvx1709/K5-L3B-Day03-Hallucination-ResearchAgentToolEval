@@ -14,6 +14,7 @@
 |   1 | Vũ Xuân Bách | 2A202603803 |26ai.bachvx2@vinuni.edu.vn| bachvx1709 | Leader, v0, v1, UI & Report |
 |   2 | Nguyễn Hoàng Trung | 2A202603826 | 26ai.trungnh@vinui.edu.vn | trungtk03 | CP3: Custom Tool & Unit Tests |
 |   3 | Nguyễn Duy Mạnh | 2A202603806 | 26ai.manhnd9@vinuni.edu.vn | hnamyud | Eval nhóm, Model local |
+|   4 | Nguyễn Tuấn Dũng | 2A202603859 | 26ai.dungnt16@vinuni.edu.vn | DungNguyen74 | CP3: Custom Tool (text_stats) & Unit Tests |
 
 ## Cá nhân
 
@@ -101,3 +102,35 @@ report/team/MSSV_HoTen.md
   - Prompt v1: `starter_v0/runs/v1_B_base_openrouter_20261110T193325762444.json` (75%).
 - **Public URL**: `https://geography-adaptive-leaves-unfortunately.trycloudflare.com`.
 - **Báo cáo cá nhân**: [2A202603803_VuXuanBach.md](report/team/2A202603803_VuXuanBach.md).
+
+## NguyenTuanDung-2A202603859
+
+### Phần việc phụ trách
+
+- Phụ trách **Checkpoint 3 (CP3: Tool mới và unit test)** — xây dựng tool `text_stats`.
+- Thiết kế, hiện thực và tích hợp tool mới `text_stats` (đếm số từ, số ký tự và ước tính thời gian đọc cho văn bản hoặc bản nháp).
+- Đăng ký tool vào `TOOL_FUNCTIONS` trong `starter_v0/tools/__init__.py` và khai báo schema trong `starter_v0/artifacts/tools.yaml`.
+- Viết unit test cho `text_stats` và hoàn thiện toàn bộ các stub test trong `starter_v0/tests/test_tools_todo.py` (trên nhánh `Dungv2`, commit `0b0adce`).
+- Viết báo cáo cá nhân `report/team/2A202603859_NguyenTuanDung.md` và cập nhật nội dung đóng góp tương ứng trong `report/team/group_report.md`.
+
+### Đóng góp cụ thể
+
+- Tạo module `starter_v0/tools/text_stats/` gồm `tool.py` và `Tool.md` (frontmatter `name: text_stats`, `category: analysis`, `requires_env: []`, mô tả `Purpose`, `When to use`, `Arguments`).
+- Hiện thực hàm `text_stats(text: str, wpm: int = 200) -> Dict[str, Any]` tính `word_count`, `char_count`, `estimated_reading_seconds` và `items`, kèm guardrail kiểm tra `text` rỗng/sai kiểu và `wpm` không phải số nguyên hoặc `<= 0` để trả về error dict (`status: "error"`, `items: []`) thay vì raise exception.
+- Đăng ký `"text_stats": text_stats` trong `starter_v0/tools/__init__.py` và khai báo schema trong `starter_v0/artifacts/tools.yaml` (nêu rõ `USE WHEN` / `DO NOT USE WHEN` và ràng buộc tham số).
+- Hoàn thiện 14 test stubs cho các tool có sẵn (`clarify`, `format`, `send`, `lookup`, `fetch`, `timeline`, `social_search`, `policy`) và viết 3 unit tests cho `text_stats` (happy path, input chuỗi khoảng trắng rỗng, `wpm=0` và `wpm="invalid_int"`) ở commit `0b0adce` (nhánh `Dungv2`, đã merge vào `main` qua PR #3 `7eaba02`). *(Ghi chú: sau khi merge PR #2 `4746c85`, `starter_v0/tests/test_tools_todo.py` trên `main` hiện giữ 1 test của `text_stats` là `test_text_stats_failure_invalid_wpm_returns_error_dict` cùng bộ test của `source_credibility` và 14 test hệ thống.)*
+
+### Bằng chứng
+
+- Code tool: `starter_v0/tools/text_stats/tool.py`, `starter_v0/tools/text_stats/Tool.md`.
+- Registry & Declaration: `starter_v0/tools/__init__.py`, `starter_v0/artifacts/tools.yaml`.
+- Unit tests: `starter_v0/tests/test_tools_todo.py` (commit `0b0adce`, nhánh `Dungv2`, merge `7eaba02`).
+- Báo cáo: `report/team/2A202603859_NguyenTuanDung.md`, `report/team/group_report.md` (commit `8719799`).
+- Kết quả test ghi nhận trong báo cáo cá nhân (khi chạy trên nhánh `Dungv2` trước lúc gộp PR #2): `pytest tests/ -v` đạt **84 passed, 0 failed, 0 skipped** (60 contract tests, 7 example tests, 17 tests trong `test_tools_todo.py`).
+
+### Tự đánh giá
+
+- Hoàn thành đầy đủ các hạng mục của **Checkpoint 3 (CP3)** đối với tool `text_stats` (code có guardrail trả error dict, tài liệu đặc tả, đăng ký trong `__init__.py` và `tools.yaml`, thiết kế đủ ≥ 3 unit tests theo 3 nhóm happy path / input xấu / nhánh lỗi) và hoàn thiện phần Test Challenge (0 skipped, 0 failed) trên nhánh `Dungv2`.
+- Các điểm cần xử lý tiếp trên nhánh `main` để đảm bảo chấm tự động ổn định:
+  - Đổi tên `starter_v0/tools/text_stats/Tool.md` thành `TOOL.md` (in hoa) để đảm bảo `test_tool_folder_has_tool_md_with_matching_name` (`glob("*/TOOL.md")`) pass trên môi trường phân biệt chữ hoa/thường (Linux).
+  - Khôi phục 2 unit tests của `text_stats` bị mất khi merge PR #2 (`test_text_stats_happy_path_returns_counts` và `test_text_stats_bad_input_empty_string_from_model` khớp với chữ ký và error dict của `tool.py`) vào `starter_v0/tests/test_tools_todo.py` trên `main` để đạt đủ ≥ 3 unit tests cho mỗi tool mới theo rubric C4.

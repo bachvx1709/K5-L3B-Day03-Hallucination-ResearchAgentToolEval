@@ -2,10 +2,10 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm: Nhóm L3B - VuXuanBach & NguyenHoangTrung
+- Tên nhóm: Hallucination
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY03-VuXuanBach-2A202603803-ResearchAgentToolEval`
-- URL repo, nhánh nộp, commit chốt: https://github.com/bachvx1709/K5-L3B-DAY03-VuXuanBach-2A202603803-ResearchAgentToolEval.git (nhánh: NguyenHoangTrung)
+- URL repo, nhánh nộp, commit chốt: https://github.com/bachvx1709/K5-L3B-DAY03-VuXuanBach-2A202603803-ResearchAgentToolEval
 
 ## Thành viên
 

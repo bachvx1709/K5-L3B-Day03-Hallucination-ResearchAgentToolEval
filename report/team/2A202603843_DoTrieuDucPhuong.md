@@ -1,4 +1,4 @@
-# Báo cáo cá nhân — HoVaTen-MSSV
+# Báo cáo cá nhân — Đỗ Triệu Đức Phương - 2A202603843
 
 Đổi tên file theo quy tắc `MSSV_HoTen.md`.
 

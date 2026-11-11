@@ -15,6 +15,7 @@
 |   2 | Nguyễn Hoàng Trung | 2A202603826 | 26ai.trungnh@vinui.edu.vn | trungtk03 | CP3: Custom Tool & Unit Tests |
 |   3 | Nguyễn Duy Mạnh | 2A202603806 | 26ai.manhnd9@vinuni.edu.vn | hnamyud | Eval nhóm, Model local |
 |   4 | Nguyễn Tuấn Dũng | 2A202603859 | 26ai.dungnt16@vinuni.edu.vn | DungNguyen74 | CP3: Custom Tool (text_stats) & Unit Tests |
+|   5 | Đỗ Triệu Đức Phương | 2A202603843 | 26ai.phuongdtd@vinuni.edu.vn | ducphuong2005 | CP2: fix prompt and tool declaration for v3  |
 
 ## Cá nhân
 
@@ -134,3 +135,29 @@ report/team/MSSV_HoTen.md
 - Các điểm cần xử lý tiếp trên nhánh `main` để đảm bảo chấm tự động ổn định:
   - Đổi tên `starter_v0/tools/text_stats/Tool.md` thành `TOOL.md` (in hoa) để đảm bảo `test_tool_folder_has_tool_md_with_matching_name` (`glob("*/TOOL.md")`) pass trên môi trường phân biệt chữ hoa/thường (Linux).
   - Khôi phục 2 unit tests của `text_stats` bị mất khi merge PR #2 (`test_text_stats_happy_path_returns_counts` và `test_text_stats_bad_input_empty_string_from_model` khớp với chữ ký và error dict của `tool.py`) vào `starter_v0/tests/test_tools_todo.py` trên `main` để đạt đủ ≥ 3 unit tests cho mỗi tool mới theo rubric C4.
+## DoTrieuDucPhuong — CP2: Tối ưu hóa prompt và tool declaration (bản v3)
+
+### Phần việc phụ trách
+
+- Phân tích lỗi còn tồn đọng sau v0, v1, v2 để xây dựng giả thuyết toàn diện cho bản v3.
+- Tối ưu đồng thời cả `system_prompt.md` và `tools.yaml`.
+- Chạy base eval đo lường phiên bản v3, phân tích kết quả và cập nhật `version_log.csv`.
+
+### Đóng góp và kết quả
+
+- Bản v3 đạt **95%** (19/20 passed) trên base eval, tăng thêm 25% từ 70% ở v0; đạt **100% Tool Routing Accuracy** và **100% Multiturn Accuracy**.
+- Loại bỏ các chỉ dẫn xấu của starter code (xúi đoán mò username/URL, tự ý gửi tin, ép hoàn thành 1 bước).
+- Bổ sung quy tắc routing rõ ràng, thiết lập boundary an toàn (hỏi xác nhận `yes_no` trước khi gửi Telegram), xử lý các câu ngoài phạm vi/meta không gọi tool.
+- Chuẩn hóa convention tham số: `screenname` không chứa `@`, trích xuất `query` sạch chỉ giữ thực thể cốt lõi (bỏ từ ngữ thời gian/loại tin), chuẩn hóa `topic=news` và `timeframe=day/week`.
+
+### Bằng chứng
+
+- Commit / PR: cập nhật tối ưu `system_prompt.md` và `tools.yaml` cho v3.
+- File: `starter_v0/artifacts/system_prompt.md`, `starter_v0/artifacts/tools.yaml`, `starter_v0/artifacts/version_log.csv`.
+- Run file: `starter_v0/runs/v3_B_base_openrouter_20261110T190653600689.json` (đạt 19/20 pass, 0 provider error).
+- Hợp đồng kiểm thử: `pytest tests/test_tool_contract.py` đạt **55/55 passed**.
+- Báo cáo cá nhân: [2A202603843_DoTrieuDucPhuong.md](report/team/2A202603843_DoTrieuDucPhuong.md).
+
+### Đánh giá ngắn
+
+Đã hoàn thành toàn diện nhiệm vụ Checkpoint 2 (v3) với minh chứng thực nghiệm và số đo rõ ràng. Kết quả chứng minh việc kết hợp chặt chẽ giữa routing rule trong prompt và định nghĩa boundary/arg convention trong tools schema để loại bỏ hallucination và nâng cao độ chính xác của agent.

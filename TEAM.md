@@ -14,7 +14,7 @@
 |   1 | Vũ Xuân Bách | 2A202603803 |26ai.bachvx2@vinuni.edu.vn| bachvx1709 | Leader, v0, v1, UI & Report |
 |   2 | Nguyễn Hoàng Trung | 2A202603826 | 26ai.trungnh@vinui.edu.vn | trungtk03 | CP3: Custom Tool & Unit Tests |
 |   3 | Nguyễn Duy Mạnh | 2A202603806 | 26ai.manhnd9@vinuni.edu.vn | hnamyud | Eval nhóm, Model local |
-|   4 | Đỗ Triệu Đức Phương | 2A202603843 | 26ai.phuongdtđ@vinuni.edu.vn | ducphuong2005 | CP2: fix prompt and tool declaration for v3  |
+|   4 | Đỗ Triệu Đức Phương | 2A202603843 | 26ai.phuongdtd@vinuni.edu.vn | ducphuong2005 | CP2: fix prompt and tool declaration for v3  |
 
 ## Cá nhân
 

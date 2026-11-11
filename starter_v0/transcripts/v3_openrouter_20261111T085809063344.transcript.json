@@ -1,0 +1,666 @@
+{
+  "transcript_id": "v3_openrouter_20261111T085809063344",
+  "version": "v3",
+  "artifact_version": "v3+pdd22a4e2a8aa+t087e3e52c860",
+  "prompt_hash": "dd22a4e2a8aacbf393abf9b68b4c4be918f1c7beec7dc047cad01fed8c65c91b",
+  "tools_hash": "087e3e52c86004b04acf280608fbf4c9b6ea68ffd28d238078eaf118a8e295bc",
+  "provider": "openrouter",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "system_prompt": "/Users/vxb/Documents/AIthucchien/VinUni_Codelab_Day03/K5-L3B-Day03-Hallucination-ResearchAgentToolEval/starter_v0/artifacts/system_prompt.md",
+  "tools": "/Users/vxb/Documents/AIthucchien/VinUni_Codelab_Day03/K5-L3B-Day03-Hallucination-ResearchAgentToolEval/starter_v0/artifacts/tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-11-11T08:58:09",
+  "updated_at": "2026-11-11T08:58:31",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-11-11T08:58:09",
+      "user": "Tìm bài báo mới về agent evaluation trên arxiv",
+      "status": "answered",
+      "assistant_text": "Dưới đây là danh sách các bài báo mới nhất trên arXiv liên quan đến **agent evaluation** (đánh giá agent), sắp xếp theo ngày nộp bài gần nhất:\n\n---\n\n### 1. WorkflowArena: Benchmarking Executable Workflow Orchestration in LLM-Based Multi-Agent Systems\n- **arXiv ID:** 2611.12856v1\n- **Tác giả:** Zheng Jiang, Fang Niu, Bo Peng, et al.\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Giới thiệu WorkflowArena, một benchmark gồm 145 tác vụ dài hạn trong 8 lĩnh vực chuyên môn (phát triển phần mềm, toán học hình thức, phân tích pháp lý, sản xuất 3D…) để đánh giá khả năng tổ chức quy trình làm việc (workflow orchestration) của hệ thống multi-agent dựa trên LLM. Các thí nghiệm với 9 mô hình cho thấy không có cấu hình nào tốt nhất trên tất cả các miền và việc tổ chức quy trình là một yếu tố đo lường được ảnh hưởng đến hiệu suất tác vụ.\n- **Link:** http://arxiv.org/abs/2611.12856v1\n\n### 2. Mitigating Agentic Deception via Evaluation-Side Partially Observable Games\n- **arXiv ID:** 2611.12835v1\n- **Tác giả:** Hanxiao Li, Shutong Liu, Yongjia Ma, et al.\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Nghiên cứu hành vi lừa đảo của agent LLM và đưa ra khung e-PoG (Evaluation-Side Partially Observable Extensive Form Game) để giảm thiểu lừa đảo từ phía đánh giá. Thí nghiệm trên Gemma3-4B-IT và Qwen3-4B/8B cho thấy e-PoG cải thiện giảm thiểu lừa đảo lên đến 26.0% và tăng tỷ lệ hoàn thành tác vụ lên đến 39.8% so với các baseline mạnh nhất.\n- **Link:** http://arxiv.org/abs/2611.12835v1\n\n### 3. AutoBuddy: Evaluating Proactive, Always-On Agents on Task Discovery and Execution in a Simulated Workplace\n- **arXiv ID:** 2611.12393v1\n- **Tác giả:** Shiqi Chen, Daniel Madrigal Diaz, Wei-Ning Chen, et al.\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Xây dựng AutoBuddy-Bench, một mô phỏng tổ chức để đánh giá khả năng khám phá tác vụ và thực thi tác vụ của agent luôn hoạt động (always-on). Nghiên cứu cho thấy sự chuyển đổi hệ thống trong việc mất tác vụ: mô hình yếu thất bại chủ yếu ở giai đoạn khám phá, mô hình trung bình nhận diện được tác vụ nhưng thường dừng lại trước khi thực thi, và mô hình mạnh nhất thất bại chủ yếu trong quá trình thực thi.\n- **Link:** http://arxiv.org/abs/2611.12393v1\n\n### 4. Safe Reinforcement Learning for Multi-Turn Clinical Agents: When Dense Rewards Beat Outcome Rewards\n- **arXiv ID:** 2611.12728v1\n- **Tác giả:** Brendan P. Murphy, Agustina Saenz\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Đánh giá agent lâm sàng đa lượt trong ba môi trường kiểm soát (triệu khám thuốc, chẩn đoán cấp tính, titrasi liều thuốc). Kết quả cho thấy phần thưởng chỉ dựa trên kết quả cuối cùng (outcome-only) không đủ để đào tạo agent đáng tin cậy; thiết kế phần thưởng phải tính đến quy trình sử dụng để đạt đến câu trả lời, và đánh giá phải phân biệt việc thu thập thông tin thích ứng với các lối tắt khai thác phần thưởng.\n- **Link:** http://arxiv.org/abs/2611.12728v1\n\n### 5. Can Frontier Auto Researchers Reconstruct Human Research Decisions in AI?\n- **arXiv ID:** 2611.12429v1\n- **Tác giả:** Shengyun Si, Junjie Chu, Ye Leng, Yang Zhang\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Giới thiệu AutoHRS, một khung đánh giá theo giai đoạn để đánh giá mức độ trung thành mà các auto researcher tái tạo các manifacture nghiên cứu của con người trên các giai đoạn khác nhau của quy trình khoa học. Sử dụng 152 bài ICLR oral làm corpus, nghiên cứu cho thấy các auto researcher hiện tại thường thất bại trong việc khôi phục các quyết định nghiên cứu quan trọng và các manifacture kết quả trên nhiều giai đoạn.\n- **Link:** http://arxiv.org/abs/2611.12429v1\n\n---\n\nNếu bạn muốn tôi đọc toàn văn của bất kỳ bài báo nào trong số này hoặc tìm thêm bài báo về một khía cạnh cụ thể của agent evaluation (ví dụ: benchmarking, an toàn, đánh giá multi-agent…), hãy cho tôi biết!",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "papers",
+              "args": {
+                "query": "agent evaluation",
+                "max_results": 10,
+                "sort_by": "submittedDate"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "papers",
+              "args": {
+                "query": "agent evaluation",
+                "max_results": 10,
+                "sort_by": "submittedDate"
+              },
+              "result": {
+                "tool": "arxiv_search",
+                "query": "agent evaluation",
+                "api_query": "all:agent AND all:evaluation",
+                "total_results": 27035,
+                "items": [
+                  {
+                    "arxiv_id": "2611.12878v1",
+                    "title": "Adaptive Quantization Preserves Fast Rates for TD Learning over Rate-Limited Channels",
+                    "summary": "Motivated by reinforcement learning subject to communication constraints, we study a policy evaluation problem with linear function approximation over a rate-limited channel. In our setup, an agent interacting with an unknown environment (modeled as a Markov Decision Process) transmits quantized estimates of a temporal-difference (TD) learning update direction to a server over a finite-capacity channel. Our goal is to investigate to what extent one can preserve the statistical convergence rates achievable when the channel has infinite capacity. To that end, we propose a new algorithm called Batched Adaptively Quantized TD (BAQ-TD), which uses batching to reduce the variance of the transmitted information, and adaptive quantization to encode innovations. We prove a high-probability finite-time error bound for BAQ-TD, and show that, above a certain finite channel capacity, BAQ-TD preserves the convergence rate of unquantized TD up to logarithmic factors. Specifically, for a $d$-dimensional value function parameter, we establish that transmitting a total of $\\mathcal{O}(d \\log(T))$ bits over a horizon of length $T$ suffices to achieve the order-optimal rate of $\\tilde{\\mathcal{O}}(1/T)$, marking an exponential improvement in communication-complexity over prior work.",
+                    "authors": [
+                      "Sreejeet Maity",
+                      "Aritra Mitra"
+                    ],
+                    "published": "2026-11-09T18:58:41Z",
+                    "updated": "2026-11-09T18:58:41Z",
+                    "url": "http://arxiv.org/abs/2611.12878v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12878v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.LG",
+                    "categories": [
+                      "cs.LG"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12856v1",
+                    "title": "WorkflowArena: Benchmarking Executable Workflow Orchestration in LLM-Based Multi-Agent Systems",
+                    "summary": "Large language model agents are increasingly deployed as multi-agent systems rather than as a standalone model operating within a single context. Recent agent harnesses allow the model to instantiate worker agents and to author the executable workflow that coordinates them, shifting the design of system structure from developers to the model at run time. The quality of this organization therefore constitutes a distinct capability, yet existing benchmarks either measure end-to-end task completion or evaluate coordination under structures specified in advance. We formalize this capability as workflow orchestration and introduce WorkflowArena, a benchmark of 145 long-horizon tasks spanning 8 professional domains, from software engineering and formal mathematics to legal analysis and 3D production. Each task specifies an initial workspace and an integrated deliverable composed of interdependent components, which is assessed by a hidden verifier. Agents determine autonomously whether and how to delegate, and all delegation is recorded, enabling joint evaluation of deliverable quality and the organization of the underlying work. Experiments with nine models show that no single configuration performs best across all domains and that systems exhibit distinct delegation strategies: at high effort, Claude models in Claude Code invoke workflows less frequently but with larger worker groups, whereas GPT models in Codex delegate more frequently in smaller units. When the executing model is held fixed on a challenging subset of tasks, workflows authored by Claude Opus 5.5 substantially improve weaker executors, indicating that workflow organization is itself a measurable determinant of task performance.",
+                    "authors": [
+                      "Zheng Jiang",
+                      "Fang Niu",
+                      "Bo Peng",
+                      "Houde Qian",
+                      "Wenyi Li",
+                      "Deyao Hong",
+                      "Mingju Gao",
+                      "Yizhe Chi",
+                      "Youjie Zheng",
+                      "Kaisen Yang",
+                      "Calvin Xiao",
+                      "Lifeng Sun",
+                      "Huan-ang Gao"
+                    ],
+                    "published": "2026-11-09T18:45:28Z",
+                    "updated": "2026-11-09T18:45:28Z",
+                    "url": "http://arxiv.org/abs/2611.12856v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12856v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.CL",
+                    "categories": [
+                      "cs.CL",
+                      "cs.SE"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12835v1",
+                    "title": "Mitigating Agentic Deception via Evaluation-Side Partially Observable Games",
+                    "summary": "As large language models become more capable agents, they can exhibit deceptive behaviors, cheating human for higher rewards while appearing helpful. We attribute this failure to evaluation-side partial observability, where models are evaluated mainly from final outcome, without checking the faithfulness of underlying reasoning, tool use, and environmental effects. Prior mitigations address this partial observability by predefined evaluator latent belief space or one-shot monitoring, which do not extend to free-form language space and vulnerable to stronger deceptions that evade simple monitoring. In this work, we formulate deception mitigation as an Evaluation-Side Partially Observable Extensive Form Game (e-PoG), a max-min framework in which an agent maximizes reward, a monitor minimizes the agent's payoff by exposing deception from the full interaction trajectory, and a fixed verifier validates the monitor's claims and converts them into penalties. We define the solution concept as a Subgame-Perfect Oversight Equilibrium (SPOE) between agent and monitor, and prove its existence in finite games. With a perfect verifier, every SPOE is faithful; with an imperfect verifier, the guarantee persists if verifier errors do not reverse the ranking of monitor actions. To achieve faithful SPOE, we derive a two-timescale policy gradient algorithm and enhance the pipeline empirically with NLI verification and deterministic checks. Experiments with Gemma3-4B-IT and Qwen3-4B/8B on Agentic Role-Playing, SearchQA, and WebShop show that e-PoG mitigates multiple emergent deception modes, outperforming the strongest baselines by 26.0% in deception mitigation and by up to 39.8% in task success. These gains persist under weak-to-strong supervision. Code is available at https://github.com/Toyoid/deceptive-agent.",
+                    "authors": [
+                      "Hanxiao Li",
+                      "Shutong Liu",
+                      "Yongjia Ma",
+                      "Jiaming Ji",
+                      "Juntao Dai",
+                      "Shuning Zhang",
+                      "Kejian Shi",
+                      "Kai Chen",
+                      "Pu Feng",
+                      "Yuqing Ma",
+                      "Qi Dou",
+                      "Yaodong Yang",
+                      "Xianglong Liu",
+                      "Simin Li"
+                    ],
+                    "published": "2026-11-09T18:33:13Z",
+                    "updated": "2026-11-09T18:33:13Z",
+                    "url": "http://arxiv.org/abs/2611.12835v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12835v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.LG",
+                    "categories": [
+                      "cs.LG"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12728v1",
+                    "title": "Safe Reinforcement Learning for Multi-Turn Clinical Agents: When Dense Rewards Beat Outcome Rewards",
+                    "summary": "Reinforcement learning with verifiable rewards is increasingly used to improve language model reasoning, yet its effects on sequential decision procedures remain poorly understood. We study this problem in clinical multi-turn agents that must decide what information to request, when to stop gathering evidence, and which action to take. We introduce three controlled environments: medication refill triage, acute diagnostic work-up, and dosing titration, each with hidden clinical states, query costs, exact adaptive oracles, and deterministic outcome verifiers. Across these tasks, outcome-only group relative policy optimization often improves aggregate reward while producing undesirable procedures, including premature commitment, one-question collapse, and failures on rare high-risk cases. In diagnostics, assigning dense credit to questions that reduce uncertainty improves held-out value and moderate-case support across three training seeds relative to outcome-only reinforcement learning, without the high-risk seed collapse observed under outcome-only training. Separating exploration from exploitation further increases high-risk support at its best checkpoint, but at the cost of excessive information gathering on low-acuity cases. Additional experiments show that the optimal strength of process credit is task-dependent; that after a supervised warmup that already gathers carefully, reinforcement learning raises aggregate reward by trimming questions while degrading high-risk performance; and that reinforcement learning does not reliably repair rare behavior gaps inherited from biased supervised data. Verifiable final outcomes are therefore insufficient for training reliable multi-turn agents: reward design must account for the procedure used to reach an answer, and evaluation must distinguish adaptive information gathering from reward-exploiting shortcuts.",
+                    "authors": [
+                      "Brendan P. Murphy",
+                      "Agustina Saenz"
+                    ],
+                    "published": "2026-11-09T17:14:40Z",
+                    "updated": "2026-11-09T17:14:40Z",
+                    "url": "http://arxiv.org/abs/2611.12728v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12728v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.LG",
+                    "categories": [
+                      "cs.LG",
+                      "cs.AI",
+                      "cs.CL"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12638v1",
+                    "title": "FAROS: Forecast-Aware Risk-Informed Online Reinforcement Learning for Proactive O-RAN Slicing",
+                    "summary": "Proactive Open Radio Access Network (O-RAN) slicing requires decisions before an approaching quality-of-service (QoS) loss becomes difficult to reverse. We present FAROS, a Forecast-Aware Risk-Informed O-RAN Slicing framework that combines an eight-step QoS forecast, training-only PCMCI+-supported temporal risk, Multi-Agent Proximal Policy Optimization (MAPPO) under centralized training and decentralized execution (CTDE), symbolic feasibility constraints, and reliability-aware Top-K arbitration. MAPPO supplies the actor proposal, while A5v2 checks admissibility and one-step utility before execution. Evaluation uses ten validation-selected frozen checkpoints, 500 matched start indices per seed under the risky-start protocol, and 150,000 agent-level decisions. FAROS obtains mean reward 0.2778 and ten-step recovery 90.56% across ten seeds. A fixed model-matched diagnostic rule reaches reward 0.3015 and recovery 97.57% under the same transition-reward contract, so we make no superiority claim over direct threshold logic. A same-actor M4 shield control also reaches zero risky-state prohibited actions. In the M5 trace, A5v2 changes 22.61% of actor proposals and reduces the predicate-defined prohibited-action rate from 16.79% at proposal time to zero at execution; this property is enforced by the arbiter rather than learned by MAPPO. Independent ns-3 experiments test the six-action interface at packet level and remain separate from end-to-end FAROS claims.",
+                    "authors": [
+                      "Peyman Eftekhari",
+                      "Seyyed Kasra Mortazavi",
+                      "Reza Farahani",
+                      "Robert Legenstein",
+                      "Kyandoghere Kyamakya",
+                      "Martin Gebser"
+                    ],
+                    "published": "2026-11-09T16:15:23Z",
+                    "updated": "2026-11-09T16:15:23Z",
+                    "url": "http://arxiv.org/abs/2611.12638v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12638v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.NI",
+                    "categories": [
+                      "cs.NI"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12557v1",
+                    "title": "WanderBench: Can World Models Explore Dynamic Worlds from Video?",
+                    "summary": "Video world models conditioned on an input video make it possible to explore real, recorded dynamic scenes, enabling re-shooting of footage, free-viewpoint replay, and real-to-sim environments for embodied agents. Such uses require the generated rollout to stay faithful to the recorded world, yet existing benchmarks start from a single image or a text prompt, and video-conditioned generation is evaluated mainly on perceptual quality and camera following. These evaluations do not directly assess whether exploration preserves subject identity, event progression, and scene consistency upon revisiting a location. We introduce WanderBench, a benchmark for exploring dynamic worlds from video. It comprises 745 single-shot source videos of real and AI-generated content in three difficulty tiers (3-25 s), paired with camera routes given as keyboard actions, and evaluates six dimensions with 24 human-validated sub-metrics. Benchmarking eight models, we find that as clips grow longer, models keep the static scene and visual quality but lose camera control and the source dynamics, and that none keeps revisited places consistent. We further propose WanderLand, a training-free framework that conditions each frame of a frozen model on the same-instant source and, on revisits, on its own earlier static content. WanderLand improves five models on every dimension, by up to 8.3 points in source-dynamics fidelity.",
+                    "authors": [
+                      "Yuhang Chen",
+                      "Jiheng Li",
+                      "Jiale Wang",
+                      "Zai Wang",
+                      "Guangyue Liu"
+                    ],
+                    "published": "2026-11-09T15:23:53Z",
+                    "updated": "2026-11-09T15:23:53Z",
+                    "url": "http://arxiv.org/abs/2611.12557v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12557v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.CV",
+                    "categories": [
+                      "cs.CV",
+                      "cs.AI"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12552v1",
+                    "title": "SciMARS: Multi-Agent Recursive Self-Improvement for Closed-Loop Scientific Discovery",
+                    "summary": "We propose SciMARS, a framework for recursive task-local adaptation of multi-agent harnesses in closed-loop scientific discovery. Multi-agent systems coordinate analysis, experimental design, and verification as scientific evidence evolves. However, two problems limit their effectiveness: (i) without shared memory, agents lose observations and repeat work; (ii) fixed role procedures, handoffs, and memory policies perpetuate mistakes despite retained evidence. We address these problems with a shared evidence graph and separate component editors. SciMARS adapts roles and coordination; SciMARS + Memory adds a third editor for how agents record, retrieve, and receive evidence. Candidate probes guide composition and selection of the next harness. We evaluate scientific discovery through experimental-data replay and a digital twin. SciMARS + Memory resolves 12/18 GPT-6-Astra and 2/18 GLM-5.3 attempts on Autonomous Science Bench, compared with 8/18 and 1/18 for the base multi-agent team. On ScienceAgentBench and AppWorld, it solves 14/38 and 11/20 tasks, compared with 11/38 and 5/20 for the base team. These results support combining shared memory with harness adaptation across scientific and interactive tasks.",
+                    "authors": [
+                      "Weimin Wu",
+                      "Han Liu"
+                    ],
+                    "published": "2026-11-09T15:20:32Z",
+                    "updated": "2026-11-09T15:20:32Z",
+                    "url": "http://arxiv.org/abs/2611.12552v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12552v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.AI",
+                    "categories": [
+                      "cs.AI"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12529v1",
+                    "title": "Perceived Agency During Agent-Avatar Control Transitions in Virtual Reality",
+                    "summary": "Prior beliefs about whether a virtual human (VH) is controlled by a human or a computer can shape how users interpret and respond to its behaviour. As emerging hybrid VH systems allow control to transfer between human operators and computer programs during an ongoing interaction, it remains unclear whether perceived agency updates with the actual controller or continues to reflect users' prior beliefs and first impressions. We investigated this question in a within-subject VR study with 24 participants across four conditions: always computer-controlled, computer-to-human, human-to-computer, and always human-controlled. We designed an interaction task in which participants acted as interviewers, asking the VHs a fixed set of questions. Before each interaction, participants were informed whether the VH was human- or computer-controlled, matching the actual controller at the beginning, but were unaware of possible control transitions. We found that perceived agency was strongly influenced by the controller presented at the beginning of the interaction, with no evidence of updating following the control transitions. Social evaluations including likeability and co-presence were generally higher in conditions where human control occurred later and covered a greater proportion of the interaction. The results suggest that prior beliefs and first impressions continued to shape perceived agency, whereas social evaluations were more sensitive to the VH's actual behaviour over the interaction.",
+                    "authors": [
+                      "Jingyi Zhang",
+                      "Anthony Steed"
+                    ],
+                    "published": "2026-11-09T15:03:45Z",
+                    "updated": "2026-11-09T15:03:45Z",
+                    "url": "http://arxiv.org/abs/2611.12529v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12529v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.HC",
+                    "categories": [
+                      "cs.HC",
+                      "cs.AI"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12429v1",
+                    "title": "Can Frontier Auto Researchers Reconstruct Human Research Decisions in AI?",
+                    "summary": "Scientific research has long been driven by substantial human effort, from reviewing prior work and identifying research gaps to designing specific solutions. Recent advances in harness-based agent systems have given rise to increasingly capable Auto Researchers, which can autonomously carry out these tasks and, increasingly, entire end-to-end research workflows. Yet despite their rapidly growing capabilities, how closely the research decisions and outputs produced by auto researchers align with those of human experts remains underexplored. We investigate this gap through the lens of research reconstruction and study: Given comparable research context, how similar are the research decisions and outputs produced by Auto Researchers to those of human researchers in AI research? To answer this question, we introduce AutoResearcher-Human Research Similarity (AutoHRS), a stage-wise evaluation framework for assessing how faithfully auto researchers reconstruct human research artifacts across different stages of the scientific workflow. Using 152 ICLR oral papers as our corpus, we generate 456 research trajectories spanning different stages of the research process. Applying AutoHRS to these trajectories, we find that current Auto Researchers frequently fail to recover key research decisions and their resulting artifacts across multiple stages of the research process.",
+                    "authors": [
+                      "Shengyun Si",
+                      "Junjie Chu",
+                      "Ye Leng",
+                      "Yang Zhang"
+                    ],
+                    "published": "2026-11-09T13:54:46Z",
+                    "updated": "2026-11-09T13:54:46Z",
+                    "url": "http://arxiv.org/abs/2611.12429v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12429v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.CL",
+                    "categories": [
+                      "cs.CL"
+                    ]
+                  },
+                  {
+                    "arxiv_id": "2611.12393v1",
+                    "title": "AutoBuddy: Evaluating Proactive, Always-On Agents on Task Discovery and Execution in a Simulated Workplace",
+                    "summary": "As LLM agents become more autonomous, they are increasingly expected to run as always-on assistants on a user's behalf, identifying work to be done and completing it without being asked. Yet existing benchmarks usually give the agent its task, whereas in knowledge work the requests sit in the user's workspace and the agent must first recognise which obligations exist. We study proactive task discovery and execution, in which an agent must infer a user's pending tasks from their workspace and complete them in the systems where the work lives. This setting poses two challenges. For the agent, the tasks are buried in a large volume of mail, chat, documents and records. For evaluation, a benchmark needs a simulated organisation whose people, events and documents are mutually consistent, so that tasks arise realistically and their correct outcomes are known. We introduce AutoBuddy-Bench, a simulator that addresses these challenges. It models an organisation's employees, projects, business systems and event history as a temporal graph, renders it into realistic workspace artefacts, derives ground-truth tasks from the events that create obligations, and computes each task's outcome from the world state; execution is judged by the agent's changes to the workspace. To evaluate current LLMs, we build AutoBuddy, a reference agent with interchangeable backbone LLMs: it identifies tasks from the workspace, grounding each in its source records, and executes each in a separate session with write access. Varying only the backbone, we find a systematic shift in where tasks are lost: weaker models fail mainly at discovery, intermediate models identify tasks but often stop short of carrying them out, and the strongest models fail mainly during execution, most often on business-system operations. Discovery precision is only weakly related to execution quality, suggesting the two are distinct capabilities.",
+                    "authors": [
+                      "Shiqi Chen",
+                      "Daniel Madrigal Diaz",
+                      "Wei-Ning Chen",
+                      "Gbola Afonja",
+                      "Fangkai Yang",
+                      "Rujia Wang",
+                      "Chetan Bansal",
+                      "Victor Rühle",
+                      "Saravan Rajmohan",
+                      "Dongge Han"
+                    ],
+                    "published": "2026-11-09T13:30:18Z",
+                    "updated": "2026-11-09T13:30:18Z",
+                    "url": "http://arxiv.org/abs/2611.12393v1",
+                    "pdf_url": "https://arxiv.org/pdf/2611.12393v1",
+                    "source": "arxiv.org",
+                    "primary_category": "cs.AI",
+                    "categories": [
+                      "cs.AI",
+                      "cs.LG"
+                    ]
+                  }
+                ],
+                "rate_limit_note": "arXiv may return 429 if called too frequently; this tool waits at least 3 seconds between requests in-process."
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Dưới đây là danh sách các bài báo mới nhất trên arXiv liên quan đến **agent evaluation** (đánh giá agent), sắp xếp theo ngày nộp bài gần nhất:\n\n---\n\n### 1. WorkflowArena: Benchmarking Executable Workflow Orchestration in LLM-Based Multi-Agent Systems\n- **arXiv ID:** 2611.12856v1\n- **Tác giả:** Zheng Jiang, Fang Niu, Bo Peng, et al.\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Giới thiệu WorkflowArena, một benchmark gồm 145 tác vụ dài hạn trong 8 lĩnh vực chuyên môn (phát triển phần mềm, toán học hình thức, phân tích pháp lý, sản xuất 3D…) để đánh giá khả năng tổ chức quy trình làm việc (workflow orchestration) của hệ thống multi-agent dựa trên LLM. Các thí nghiệm với 9 mô hình cho thấy không có cấu hình nào tốt nhất trên tất cả các miền và việc tổ chức quy trình là một yếu tố đo lường được ảnh hưởng đến hiệu suất tác vụ.\n- **Link:** http://arxiv.org/abs/2611.12856v1\n\n### 2. Mitigating Agentic Deception via Evaluation-Side Partially Observable Games\n- **arXiv ID:** 2611.12835v1\n- **Tác giả:** Hanxiao Li, Shutong Liu, Yongjia Ma, et al.\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Nghiên cứu hành vi lừa đảo của agent LLM và đưa ra khung e-PoG (Evaluation-Side Partially Observable Extensive Form Game) để giảm thiểu lừa đảo từ phía đánh giá. Thí nghiệm trên Gemma3-4B-IT và Qwen3-4B/8B cho thấy e-PoG cải thiện giảm thiểu lừa đảo lên đến 26.0% và tăng tỷ lệ hoàn thành tác vụ lên đến 39.8% so với các baseline mạnh nhất.\n- **Link:** http://arxiv.org/abs/2611.12835v1\n\n### 3. AutoBuddy: Evaluating Proactive, Always-On Agents on Task Discovery and Execution in a Simulated Workplace\n- **arXiv ID:** 2611.12393v1\n- **Tác giả:** Shiqi Chen, Daniel Madrigal Diaz, Wei-Ning Chen, et al.\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Xây dựng AutoBuddy-Bench, một mô phỏng tổ chức để đánh giá khả năng khám phá tác vụ và thực thi tác vụ của agent luôn hoạt động (always-on). Nghiên cứu cho thấy sự chuyển đổi hệ thống trong việc mất tác vụ: mô hình yếu thất bại chủ yếu ở giai đoạn khám phá, mô hình trung bình nhận diện được tác vụ nhưng thường dừng lại trước khi thực thi, và mô hình mạnh nhất thất bại chủ yếu trong quá trình thực thi.\n- **Link:** http://arxiv.org/abs/2611.12393v1\n\n### 4. Safe Reinforcement Learning for Multi-Turn Clinical Agents: When Dense Rewards Beat Outcome Rewards\n- **arXiv ID:** 2611.12728v1\n- **Tác giả:** Brendan P. Murphy, Agustina Saenz\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Đánh giá agent lâm sàng đa lượt trong ba môi trường kiểm soát (triệu khám thuốc, chẩn đoán cấp tính, titrasi liều thuốc). Kết quả cho thấy phần thưởng chỉ dựa trên kết quả cuối cùng (outcome-only) không đủ để đào tạo agent đáng tin cậy; thiết kế phần thưởng phải tính đến quy trình sử dụng để đạt đến câu trả lời, và đánh giá phải phân biệt việc thu thập thông tin thích ứng với các lối tắt khai thác phần thưởng.\n- **Link:** http://arxiv.org/abs/2611.12728v1\n\n### 5. Can Frontier Auto Researchers Reconstruct Human Research Decisions in AI?\n- **arXiv ID:** 2611.12429v1\n- **Tác giả:** Shengyun Si, Junjie Chu, Ye Leng, Yang Zhang\n- **Ngày đăng:** 2026-11-09\n- **Tóm tắt:** Giới thiệu AutoHRS, một khung đánh giá theo giai đoạn để đánh giá mức độ trung thành mà các auto researcher tái tạo các manifacture nghiên cứu của con người trên các giai đoạn khác nhau của quy trình khoa học. Sử dụng 152 bài ICLR oral làm corpus, nghiên cứu cho thấy các auto researcher hiện tại thường thất bại trong việc khôi phục các quyết định nghiên cứu quan trọng và các manifacture kết quả trên nhiều giai đoạn.\n- **Link:** http://arxiv.org/abs/2611.12429v1\n\n---\n\nNếu bạn muốn tôi đọc toàn văn của bất kỳ bài báo nào trong số này hoặc tìm thêm bài báo về một khía cạnh cụ thể của agent evaluation (ví dụ: benchmarking, an toàn, đánh giá multi-agent…), hãy cho tôi biết!",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "papers",
+          "args": {
+            "query": "agent evaluation",
+            "max_results": 10,
+            "sort_by": "submittedDate"
+          },
+          "result": {
+            "tool": "arxiv_search",
+            "query": "agent evaluation",
+            "api_query": "all:agent AND all:evaluation",
+            "total_results": 27035,
+            "items": [
+              {
+                "arxiv_id": "2611.12878v1",
+                "title": "Adaptive Quantization Preserves Fast Rates for TD Learning over Rate-Limited Channels",
+                "summary": "Motivated by reinforcement learning subject to communication constraints, we study a policy evaluation problem with linear function approximation over a rate-limited channel. In our setup, an agent interacting with an unknown environment (modeled as a Markov Decision Process) transmits quantized estimates of a temporal-difference (TD) learning update direction to a server over a finite-capacity channel. Our goal is to investigate to what extent one can preserve the statistical convergence rates achievable when the channel has infinite capacity. To that end, we propose a new algorithm called Batched Adaptively Quantized TD (BAQ-TD), which uses batching to reduce the variance of the transmitted information, and adaptive quantization to encode innovations. We prove a high-probability finite-time error bound for BAQ-TD, and show that, above a certain finite channel capacity, BAQ-TD preserves the convergence rate of unquantized TD up to logarithmic factors. Specifically, for a $d$-dimensional value function parameter, we establish that transmitting a total of $\\mathcal{O}(d \\log(T))$ bits over a horizon of length $T$ suffices to achieve the order-optimal rate of $\\tilde{\\mathcal{O}}(1/T)$, marking an exponential improvement in communication-complexity over prior work.",
+                "authors": [
+                  "Sreejeet Maity",
+                  "Aritra Mitra"
+                ],
+                "published": "2026-11-09T18:58:41Z",
+                "updated": "2026-11-09T18:58:41Z",
+                "url": "http://arxiv.org/abs/2611.12878v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12878v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.LG",
+                "categories": [
+                  "cs.LG"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12856v1",
+                "title": "WorkflowArena: Benchmarking Executable Workflow Orchestration in LLM-Based Multi-Agent Systems",
+                "summary": "Large language model agents are increasingly deployed as multi-agent systems rather than as a standalone model operating within a single context. Recent agent harnesses allow the model to instantiate worker agents and to author the executable workflow that coordinates them, shifting the design of system structure from developers to the model at run time. The quality of this organization therefore constitutes a distinct capability, yet existing benchmarks either measure end-to-end task completion or evaluate coordination under structures specified in advance. We formalize this capability as workflow orchestration and introduce WorkflowArena, a benchmark of 145 long-horizon tasks spanning 8 professional domains, from software engineering and formal mathematics to legal analysis and 3D production. Each task specifies an initial workspace and an integrated deliverable composed of interdependent components, which is assessed by a hidden verifier. Agents determine autonomously whether and how to delegate, and all delegation is recorded, enabling joint evaluation of deliverable quality and the organization of the underlying work. Experiments with nine models show that no single configuration performs best across all domains and that systems exhibit distinct delegation strategies: at high effort, Claude models in Claude Code invoke workflows less frequently but with larger worker groups, whereas GPT models in Codex delegate more frequently in smaller units. When the executing model is held fixed on a challenging subset of tasks, workflows authored by Claude Opus 5.5 substantially improve weaker executors, indicating that workflow organization is itself a measurable determinant of task performance.",
+                "authors": [
+                  "Zheng Jiang",
+                  "Fang Niu",
+                  "Bo Peng",
+                  "Houde Qian",
+                  "Wenyi Li",
+                  "Deyao Hong",
+                  "Mingju Gao",
+                  "Yizhe Chi",
+                  "Youjie Zheng",
+                  "Kaisen Yang",
+                  "Calvin Xiao",
+                  "Lifeng Sun",
+                  "Huan-ang Gao"
+                ],
+                "published": "2026-11-09T18:45:28Z",
+                "updated": "2026-11-09T18:45:28Z",
+                "url": "http://arxiv.org/abs/2611.12856v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12856v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.CL",
+                "categories": [
+                  "cs.CL",
+                  "cs.SE"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12835v1",
+                "title": "Mitigating Agentic Deception via Evaluation-Side Partially Observable Games",
+                "summary": "As large language models become more capable agents, they can exhibit deceptive behaviors, cheating human for higher rewards while appearing helpful. We attribute this failure to evaluation-side partial observability, where models are evaluated mainly from final outcome, without checking the faithfulness of underlying reasoning, tool use, and environmental effects. Prior mitigations address this partial observability by predefined evaluator latent belief space or one-shot monitoring, which do not extend to free-form language space and vulnerable to stronger deceptions that evade simple monitoring. In this work, we formulate deception mitigation as an Evaluation-Side Partially Observable Extensive Form Game (e-PoG), a max-min framework in which an agent maximizes reward, a monitor minimizes the agent's payoff by exposing deception from the full interaction trajectory, and a fixed verifier validates the monitor's claims and converts them into penalties. We define the solution concept as a Subgame-Perfect Oversight Equilibrium (SPOE) between agent and monitor, and prove its existence in finite games. With a perfect verifier, every SPOE is faithful; with an imperfect verifier, the guarantee persists if verifier errors do not reverse the ranking of monitor actions. To achieve faithful SPOE, we derive a two-timescale policy gradient algorithm and enhance the pipeline empirically with NLI verification and deterministic checks. Experiments with Gemma3-4B-IT and Qwen3-4B/8B on Agentic Role-Playing, SearchQA, and WebShop show that e-PoG mitigates multiple emergent deception modes, outperforming the strongest baselines by 26.0% in deception mitigation and by up to 39.8% in task success. These gains persist under weak-to-strong supervision. Code is available at https://github.com/Toyoid/deceptive-agent.",
+                "authors": [
+                  "Hanxiao Li",
+                  "Shutong Liu",
+                  "Yongjia Ma",
+                  "Jiaming Ji",
+                  "Juntao Dai",
+                  "Shuning Zhang",
+                  "Kejian Shi",
+                  "Kai Chen",
+                  "Pu Feng",
+                  "Yuqing Ma",
+                  "Qi Dou",
+                  "Yaodong Yang",
+                  "Xianglong Liu",
+                  "Simin Li"
+                ],
+                "published": "2026-11-09T18:33:13Z",
+                "updated": "2026-11-09T18:33:13Z",
+                "url": "http://arxiv.org/abs/2611.12835v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12835v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.LG",
+                "categories": [
+                  "cs.LG"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12728v1",
+                "title": "Safe Reinforcement Learning for Multi-Turn Clinical Agents: When Dense Rewards Beat Outcome Rewards",
+                "summary": "Reinforcement learning with verifiable rewards is increasingly used to improve language model reasoning, yet its effects on sequential decision procedures remain poorly understood. We study this problem in clinical multi-turn agents that must decide what information to request, when to stop gathering evidence, and which action to take. We introduce three controlled environments: medication refill triage, acute diagnostic work-up, and dosing titration, each with hidden clinical states, query costs, exact adaptive oracles, and deterministic outcome verifiers. Across these tasks, outcome-only group relative policy optimization often improves aggregate reward while producing undesirable procedures, including premature commitment, one-question collapse, and failures on rare high-risk cases. In diagnostics, assigning dense credit to questions that reduce uncertainty improves held-out value and moderate-case support across three training seeds relative to outcome-only reinforcement learning, without the high-risk seed collapse observed under outcome-only training. Separating exploration from exploitation further increases high-risk support at its best checkpoint, but at the cost of excessive information gathering on low-acuity cases. Additional experiments show that the optimal strength of process credit is task-dependent; that after a supervised warmup that already gathers carefully, reinforcement learning raises aggregate reward by trimming questions while degrading high-risk performance; and that reinforcement learning does not reliably repair rare behavior gaps inherited from biased supervised data. Verifiable final outcomes are therefore insufficient for training reliable multi-turn agents: reward design must account for the procedure used to reach an answer, and evaluation must distinguish adaptive information gathering from reward-exploiting shortcuts.",
+                "authors": [
+                  "Brendan P. Murphy",
+                  "Agustina Saenz"
+                ],
+                "published": "2026-11-09T17:14:40Z",
+                "updated": "2026-11-09T17:14:40Z",
+                "url": "http://arxiv.org/abs/2611.12728v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12728v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.LG",
+                "categories": [
+                  "cs.LG",
+                  "cs.AI",
+                  "cs.CL"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12638v1",
+                "title": "FAROS: Forecast-Aware Risk-Informed Online Reinforcement Learning for Proactive O-RAN Slicing",
+                "summary": "Proactive Open Radio Access Network (O-RAN) slicing requires decisions before an approaching quality-of-service (QoS) loss becomes difficult to reverse. We present FAROS, a Forecast-Aware Risk-Informed O-RAN Slicing framework that combines an eight-step QoS forecast, training-only PCMCI+-supported temporal risk, Multi-Agent Proximal Policy Optimization (MAPPO) under centralized training and decentralized execution (CTDE), symbolic feasibility constraints, and reliability-aware Top-K arbitration. MAPPO supplies the actor proposal, while A5v2 checks admissibility and one-step utility before execution. Evaluation uses ten validation-selected frozen checkpoints, 500 matched start indices per seed under the risky-start protocol, and 150,000 agent-level decisions. FAROS obtains mean reward 0.2778 and ten-step recovery 90.56% across ten seeds. A fixed model-matched diagnostic rule reaches reward 0.3015 and recovery 97.57% under the same transition-reward contract, so we make no superiority claim over direct threshold logic. A same-actor M4 shield control also reaches zero risky-state prohibited actions. In the M5 trace, A5v2 changes 22.61% of actor proposals and reduces the predicate-defined prohibited-action rate from 16.79% at proposal time to zero at execution; this property is enforced by the arbiter rather than learned by MAPPO. Independent ns-3 experiments test the six-action interface at packet level and remain separate from end-to-end FAROS claims.",
+                "authors": [
+                  "Peyman Eftekhari",
+                  "Seyyed Kasra Mortazavi",
+                  "Reza Farahani",
+                  "Robert Legenstein",
+                  "Kyandoghere Kyamakya",
+                  "Martin Gebser"
+                ],
+                "published": "2026-11-09T16:15:23Z",
+                "updated": "2026-11-09T16:15:23Z",
+                "url": "http://arxiv.org/abs/2611.12638v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12638v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.NI",
+                "categories": [
+                  "cs.NI"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12557v1",
+                "title": "WanderBench: Can World Models Explore Dynamic Worlds from Video?",
+                "summary": "Video world models conditioned on an input video make it possible to explore real, recorded dynamic scenes, enabling re-shooting of footage, free-viewpoint replay, and real-to-sim environments for embodied agents. Such uses require the generated rollout to stay faithful to the recorded world, yet existing benchmarks start from a single image or a text prompt, and video-conditioned generation is evaluated mainly on perceptual quality and camera following. These evaluations do not directly assess whether exploration preserves subject identity, event progression, and scene consistency upon revisiting a location. We introduce WanderBench, a benchmark for exploring dynamic worlds from video. It comprises 745 single-shot source videos of real and AI-generated content in three difficulty tiers (3-25 s), paired with camera routes given as keyboard actions, and evaluates six dimensions with 24 human-validated sub-metrics. Benchmarking eight models, we find that as clips grow longer, models keep the static scene and visual quality but lose camera control and the source dynamics, and that none keeps revisited places consistent. We further propose WanderLand, a training-free framework that conditions each frame of a frozen model on the same-instant source and, on revisits, on its own earlier static content. WanderLand improves five models on every dimension, by up to 8.3 points in source-dynamics fidelity.",
+                "authors": [
+                  "Yuhang Chen",
+                  "Jiheng Li",
+                  "Jiale Wang",
+                  "Zai Wang",
+                  "Guangyue Liu"
+                ],
+                "published": "2026-11-09T15:23:53Z",
+                "updated": "2026-11-09T15:23:53Z",
+                "url": "http://arxiv.org/abs/2611.12557v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12557v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.CV",
+                "categories": [
+                  "cs.CV",
+                  "cs.AI"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12552v1",
+                "title": "SciMARS: Multi-Agent Recursive Self-Improvement for Closed-Loop Scientific Discovery",
+                "summary": "We propose SciMARS, a framework for recursive task-local adaptation of multi-agent harnesses in closed-loop scientific discovery. Multi-agent systems coordinate analysis, experimental design, and verification as scientific evidence evolves. However, two problems limit their effectiveness: (i) without shared memory, agents lose observations and repeat work; (ii) fixed role procedures, handoffs, and memory policies perpetuate mistakes despite retained evidence. We address these problems with a shared evidence graph and separate component editors. SciMARS adapts roles and coordination; SciMARS + Memory adds a third editor for how agents record, retrieve, and receive evidence. Candidate probes guide composition and selection of the next harness. We evaluate scientific discovery through experimental-data replay and a digital twin. SciMARS + Memory resolves 12/18 GPT-6-Astra and 2/18 GLM-5.3 attempts on Autonomous Science Bench, compared with 8/18 and 1/18 for the base multi-agent team. On ScienceAgentBench and AppWorld, it solves 14/38 and 11/20 tasks, compared with 11/38 and 5/20 for the base team. These results support combining shared memory with harness adaptation across scientific and interactive tasks.",
+                "authors": [
+                  "Weimin Wu",
+                  "Han Liu"
+                ],
+                "published": "2026-11-09T15:20:32Z",
+                "updated": "2026-11-09T15:20:32Z",
+                "url": "http://arxiv.org/abs/2611.12552v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12552v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.AI",
+                "categories": [
+                  "cs.AI"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12529v1",
+                "title": "Perceived Agency During Agent-Avatar Control Transitions in Virtual Reality",
+                "summary": "Prior beliefs about whether a virtual human (VH) is controlled by a human or a computer can shape how users interpret and respond to its behaviour. As emerging hybrid VH systems allow control to transfer between human operators and computer programs during an ongoing interaction, it remains unclear whether perceived agency updates with the actual controller or continues to reflect users' prior beliefs and first impressions. We investigated this question in a within-subject VR study with 24 participants across four conditions: always computer-controlled, computer-to-human, human-to-computer, and always human-controlled. We designed an interaction task in which participants acted as interviewers, asking the VHs a fixed set of questions. Before each interaction, participants were informed whether the VH was human- or computer-controlled, matching the actual controller at the beginning, but were unaware of possible control transitions. We found that perceived agency was strongly influenced by the controller presented at the beginning of the interaction, with no evidence of updating following the control transitions. Social evaluations including likeability and co-presence were generally higher in conditions where human control occurred later and covered a greater proportion of the interaction. The results suggest that prior beliefs and first impressions continued to shape perceived agency, whereas social evaluations were more sensitive to the VH's actual behaviour over the interaction.",
+                "authors": [
+                  "Jingyi Zhang",
+                  "Anthony Steed"
+                ],
+                "published": "2026-11-09T15:03:45Z",
+                "updated": "2026-11-09T15:03:45Z",
+                "url": "http://arxiv.org/abs/2611.12529v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12529v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.HC",
+                "categories": [
+                  "cs.HC",
+                  "cs.AI"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12429v1",
+                "title": "Can Frontier Auto Researchers Reconstruct Human Research Decisions in AI?",
+                "summary": "Scientific research has long been driven by substantial human effort, from reviewing prior work and identifying research gaps to designing specific solutions. Recent advances in harness-based agent systems have given rise to increasingly capable Auto Researchers, which can autonomously carry out these tasks and, increasingly, entire end-to-end research workflows. Yet despite their rapidly growing capabilities, how closely the research decisions and outputs produced by auto researchers align with those of human experts remains underexplored. We investigate this gap through the lens of research reconstruction and study: Given comparable research context, how similar are the research decisions and outputs produced by Auto Researchers to those of human researchers in AI research? To answer this question, we introduce AutoResearcher-Human Research Similarity (AutoHRS), a stage-wise evaluation framework for assessing how faithfully auto researchers reconstruct human research artifacts across different stages of the scientific workflow. Using 152 ICLR oral papers as our corpus, we generate 456 research trajectories spanning different stages of the research process. Applying AutoHRS to these trajectories, we find that current Auto Researchers frequently fail to recover key research decisions and their resulting artifacts across multiple stages of the research process.",
+                "authors": [
+                  "Shengyun Si",
+                  "Junjie Chu",
+                  "Ye Leng",
+                  "Yang Zhang"
+                ],
+                "published": "2026-11-09T13:54:46Z",
+                "updated": "2026-11-09T13:54:46Z",
+                "url": "http://arxiv.org/abs/2611.12429v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12429v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.CL",
+                "categories": [
+                  "cs.CL"
+                ]
+              },
+              {
+                "arxiv_id": "2611.12393v1",
+                "title": "AutoBuddy: Evaluating Proactive, Always-On Agents on Task Discovery and Execution in a Simulated Workplace",
+                "summary": "As LLM agents become more autonomous, they are increasingly expected to run as always-on assistants on a user's behalf, identifying work to be done and completing it without being asked. Yet existing benchmarks usually give the agent its task, whereas in knowledge work the requests sit in the user's workspace and the agent must first recognise which obligations exist. We study proactive task discovery and execution, in which an agent must infer a user's pending tasks from their workspace and complete them in the systems where the work lives. This setting poses two challenges. For the agent, the tasks are buried in a large volume of mail, chat, documents and records. For evaluation, a benchmark needs a simulated organisation whose people, events and documents are mutually consistent, so that tasks arise realistically and their correct outcomes are known. We introduce AutoBuddy-Bench, a simulator that addresses these challenges. It models an organisation's employees, projects, business systems and event history as a temporal graph, renders it into realistic workspace artefacts, derives ground-truth tasks from the events that create obligations, and computes each task's outcome from the world state; execution is judged by the agent's changes to the workspace. To evaluate current LLMs, we build AutoBuddy, a reference agent with interchangeable backbone LLMs: it identifies tasks from the workspace, grounding each in its source records, and executes each in a separate session with write access. Varying only the backbone, we find a systematic shift in where tasks are lost: weaker models fail mainly at discovery, intermediate models identify tasks but often stop short of carrying them out, and the strongest models fail mainly during execution, most often on business-system operations. Discovery precision is only weakly related to execution quality, suggesting the two are distinct capabilities.",
+                "authors": [
+                  "Shiqi Chen",
+                  "Daniel Madrigal Diaz",
+                  "Wei-Ning Chen",
+                  "Gbola Afonja",
+                  "Fangkai Yang",
+                  "Rujia Wang",
+                  "Chetan Bansal",
+                  "Victor Rühle",
+                  "Saravan Rajmohan",
+                  "Dongge Han"
+                ],
+                "published": "2026-11-09T13:30:18Z",
+                "updated": "2026-11-09T13:30:18Z",
+                "url": "http://arxiv.org/abs/2611.12393v1",
+                "pdf_url": "https://arxiv.org/pdf/2611.12393v1",
+                "source": "arxiv.org",
+                "primary_category": "cs.AI",
+                "categories": [
+                  "cs.AI",
+                  "cs.LG"
+                ]
+              }
+            ],
+            "rate_limit_note": "arXiv may return 429 if called too frequently; this tool waits at least 3 seconds between requests in-process."
+          }
+        }
+      ],
+      "ended_at": "2026-11-11T08:58:23"
+    },
+    {
+      "turn_index": 2,
+      "started_at": "2026-11-11T08:58:23",
+      "user": "Lấy bài đăng mới nhất từ twitter",
+      "status": "waiting_for_user",
+      "assistant_text": "Bạn muốn lấy bài đăng mới nhất từ tài khoản Twitter/X nào? Vui lòng cung cấp tên tài khoản (ví dụ: sama, elonmusk, karpathy...) để tôi có thể truy xuất timeline cho bạn.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "clarify",
+              "args": {
+                "response_type": "text",
+                "question": "Bạn muốn lấy bài đăng mới nhất từ tài khoản Twitter/X nào? Vui lòng cung cấp tên tài khoản (ví dụ: sama, elonmusk, karpathy...) để tôi có thể truy xuất timeline cho bạn."
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "clarify",
+              "args": {
+                "response_type": "text",
+                "question": "Bạn muốn lấy bài đăng mới nhất từ tài khoản Twitter/X nào? Vui lòng cung cấp tên tài khoản (ví dụ: sama, elonmusk, karpathy...) để tôi có thể truy xuất timeline cho bạn."
+              },
+              "result": {
+                "tool": "ask_user",
+                "question": "Bạn muốn lấy bài đăng mới nhất từ tài khoản Twitter/X nào? Vui lòng cung cấp tên tài khoản (ví dụ: sama, elonmusk, karpathy...) để tôi có thể truy xuất timeline cho bạn.",
+                "response_type": "text",
+                "options": [],
+                "awaiting_user": true
+              }
+            }
+          ]
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "clarify",
+          "args": {
+            "response_type": "text",
+            "question": "Bạn muốn lấy bài đăng mới nhất từ tài khoản Twitter/X nào? Vui lòng cung cấp tên tài khoản (ví dụ: sama, elonmusk, karpathy...) để tôi có thể truy xuất timeline cho bạn."
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn muốn lấy bài đăng mới nhất từ tài khoản Twitter/X nào? Vui lòng cung cấp tên tài khoản (ví dụ: sama, elonmusk, karpathy...) để tôi có thể truy xuất timeline cho bạn.",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ],
+      "ended_at": "2026-11-11T08:58:26"
+    },
+    {
+      "turn_index": 3,
+      "started_at": "2026-11-11T08:58:26",
+      "user": "sama",
+      "status": "answered",
+      "assistant_text": "Xin lỗi, tôi không thể lấy bài đăng từ tài khoản Twitter/X của **sama** (Sam Altman) lúc này do lỗi kỹ thuật hệ thống (thiếu khóa API cần thiết để truy cập dữ liệu Twitter/X).\n\nNếu bạn muốn, có thể thử lại sau hoặc cung cấp một tài khoản Twitter/X khác để tôi kiểm tra.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "timeline",
+              "args": {
+                "screenname": "sama",
+                "limit": 5
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "timeline",
+              "args": {
+                "screenname": "sama",
+                "limit": 5
+              },
+              "result": {
+                "tool": "get_user_tweets",
+                "error": "RuntimeError",
+                "message": "Missing RAPIDAPI_KEY env var"
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": "Xin lỗi, tôi không thể lấy bài đăng từ tài khoản Twitter/X của **sama** (Sam Altman) lúc này do lỗi kỹ thuật hệ thống (thiếu khóa API cần thiết để truy cập dữ liệu Twitter/X).\n\nNếu bạn muốn, có thể thử lại sau hoặc cung cấp một tài khoản Twitter/X khác để tôi kiểm tra.",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "timeline",
+          "args": {
+            "screenname": "sama",
+            "limit": 5
+          },
+          "result": {
+            "tool": "get_user_tweets",
+            "error": "RuntimeError",
+            "message": "Missing RAPIDAPI_KEY env var"
+          }
+        }
+      ],
+      "ended_at": "2026-11-11T08:58:29"
+    },
+    {
+      "turn_index": 4,
+      "started_at": "2026-11-11T08:58:29",
+      "user": "Gửi bản tin này lên Telegram",
+      "status": "answered",
+      "assistant_text": "Trước khi gửi nội dung lên Telegram, tôi cần xác nhận với bạn:\n\nBạn có đồng ý để tôi gửi bản tin này lên kênh Telegram của bạn không?",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": "Trước khi gửi nội dung lên Telegram, tôi cần xác nhận với bạn:\n\nBạn có đồng ý để tôi gửi bản tin này lên kênh Telegram của bạn không?",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [],
+      "ended_at": "2026-11-11T08:58:31"
+    }
+  ]
+}

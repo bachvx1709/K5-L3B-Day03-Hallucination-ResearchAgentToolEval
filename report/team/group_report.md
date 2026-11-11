@@ -179,7 +179,7 @@ Chỉ điền nếu nhóm làm bonus (ghi riêng, tối đa 10 điểm). Tool c�
 
 | Bonus | Evidence File | What Worked | Risk / Guardrail |
 |---|---|---|---|
-| Small Local Model | `starter_v0/artifacts/system_prompt_local_v5.md`, các runs local trong `starter_v0/runs/` | Chạy thành công Qwen 2.5 7B (85%) và Qwen 2.5 3B (tối ưu prompt v5 từ 25% lên 70%), giữ vững 95% khi test ngược trên Cloud. Xử lý tốt routing tin tức, format và ngữ cảnh multi-turn (83.33%). | Model nhỏ (3B) dễ bị hallucinate khi thiếu thông tin (R11 tự đoán URL) hoặc vi phạm boundary (R12 gọi `send(confirmed=false)`). Guardrail runtime của tool `send` chặn thực thi khi thiếu confirmed, yêu cầu kiểm duyệt người dùng. |
+| Small Local Model | `starter_v0/artifacts/system_prompt_local_v5.md`, các runs local trong `starter_v0/runs/` | Chạy thành công Qwen 2.5 7B (85%) và Qwen 2.5 3B (tối ưu prompt v5 từ 25% lên 70%), giữ vững 95% khi test ngược trên Cloud. Xử lý tốt routing tin tức, format và ngữ cảnh multi-turn (83.33%). | Model nhỏ (3B) dễ bị hallucinate khi thiếu thông tin hoặc vi phạm boundary. Guardrail runtime của tool `send` chặn thực thi khi thiếu confirmed, yêu cầu kiểm duyệt người dùng. |
 | Test challenge (0 skipped / regression test) | `pytest tests/ -v` output | Giải quyết toàn bộ 14 stubs kiểm thử của tool có sẵn + 5 test tool mới, đưa test suite về 86 passed, 0 failed, 0 skipped | 100% test chạy offline qua fake_http và monkeypatch |
 
 Test challenge: Đã hoàn thiện toàn bộ stubs trong `starter_v0/tests/test_tools_todo.py` để toàn bộ test suite đạt **84 passed, 0 failed, 0 skipped** (không phát hiện bug cần sửa trong code của các tool có sẵn; tất cả assert hành vi hiện tại đều pass).
@@ -232,9 +232,8 @@ V5 vẫn fail **R10, R11, R12, R13, R14, M06**. Dù tập case fail ít hơn bas
 ## 5. Khó khăn và cách xử lý
 
 > Khó khăn chính và cách nhóm xử lý. Nếu gặp lỗi kỹ thuật (provider lỗi, hết quota API, tool không chạy), mô tả lỗi và dẫn bằng chứng: run JSON, log, ảnh chụp.
-
-- **Môi trường deploy UI và Tunnel**: Ban đầu máy local chưa có binary `cloudflared` và thiếu thư viện `openai` trên môi trường Anaconda. Nhóm đã tải binary bản Darwin ARM64 trực tiếp vào `/tmp/cloudflared` và cài đặt `openai` SDK để phục vụ gọi model và mở public tunnel trực tiếp cho buổi Showdown.
-- **Contract interface của Provider**: Khi tích hợp Streamlit UI với `OpenRouterProvider`, ban đầu gọi nhầm method `.chat()` thay vì `.complete()`. Nhóm đã đối chiếu trực tiếp với `starter_v0/chat.py` và sửa lại interface gọi `provider.complete()`, xử lý đúng cờ `awaiting_user` cho tool `clarify`.
+- **Hết quota API** Sau khi chạy v0, do dùng model hơi to nên khi chạy các v1,2,3 nhóm gặp tình trạng hết quota. Nhóm đã đổi tài khoản khác và toạ các key mới.
+- **Xung đôt khi push từ các nhanh lên main** Sau khi mỗi thành viên tự thực hiện phần việc cá nhân, commit & push lên nhánh, khi pull request lên main, nhóm gặp vấn đề về xung đột và cần phải đọc, review và thực hiện lại để đảm bảo thông tin chuẩn xác nhất.
 - **API X trả HTTP 403:** G06 (`timeline`) và G10 (`social_search`) trong [run group v3](../../starter_v0/runs/v3_B_group_openrouter_20261110T234627302520.json) chọn đúng tool/tham số nhưng không lấy được dữ liệu. Nhóm giữ nguyên log và tách lỗi API tool khỏi điểm routing/args; chưa có bằng chứng khắc phục lỗi quyền truy cập.
 
 ## 6. Tổng hợp đóng góp

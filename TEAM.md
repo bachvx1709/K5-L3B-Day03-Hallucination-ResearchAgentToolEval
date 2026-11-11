@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Vũ Xuân Bách | 2A202603803 | bachvx@example.com | bachvx1709 | Leader, Eval & Report |
+|   1 | Vũ Xuân Bách | 2A202603803 |26ai.bachvx2@vinuni.edu.vn| bachvx1709 | Leader, v0, v1, UI & Report |
 |   2 | Nguyễn Hoàng Trung | 2A202603826 | 26ai.trungnh@vinui.edu.vn | trungtk03 | CP3: Custom Tool & Unit Tests |
 |   3 | Nguyễn Duy Mạnh | 2A202603806 | prezzgts@gmail.com | hnamyud | Eval nhóm, Model local |
 
@@ -71,3 +71,33 @@ report/team/MSSV_HoTen.md
 ### Đánh giá ngắn
 
 Đã hoàn thành các phần việc trên và có run, commit làm minh chứng. Kết quả cho thấy prompt ngắn hơn hữu ích với model 3B trong lần thử này, nhưng các lỗi hỏi lại và xác nhận gửi vẫn còn. Khi đánh giá cần xem cả phản hồi và lỗi API, không chỉ nhìn điểm pass.
+
+## VuXuanBach — Leader, CP1 (v0), CP2 (v1), UI & Report
+
+### Phần việc phụ trách
+
+- **Leader**: Điều phối nhóm, phân chia công việc, tổ chức cấu trúc dự án và review tiến độ.
+- **CP1 & CP2 (v0, v1)**:
+  - Thiết lập baseline `v0` ban đầu trên benchmark `eval_base.json`.
+  - Tối ưu hóa phiên bản `v1` cho Checkpoint 2 (CP2) tập trung vào `system_prompt.md`.
+- **Phát triển UI & Deployment**:
+  - Xây dựng giao diện chat đa lượt trực quan với Streamlit (`starter_v0/app.py`).
+  - Thiết lập public endpoint phục vụ Team Showdown qua Cloudflare Tunnel.
+- **Tổng hợp Báo cáo nhóm (`group_report.md`)**:
+  - Thu thập số liệu, đối chiếu bằng chứng thực tế từ run JSON, transcript và unit test để hoàn thiện toàn diện báo cáo nhóm.
+
+### Đóng góp và kết quả
+
+- **Baseline v0**: Ghi nhận độ chính xác cơ sở 70% (14/20 cases pass) trên model `nvidia/nemotron-3.5-super-vl:free` (OpenRouter); phân loại chi tiết các lỗi hallucination/boundary (R03, R10, R11, R12, R13, M02).
+- **Phiên bản v1**: Thêm các chỉ dẫn cấm đoán mò thông tin thiếu và bắt buộc hỏi xác nhận Yes/No trước khi xuất bản ra bên ngoài vào `system_prompt.md`, nâng accuracy từ 70% lên 75% (15/20 cases pass).
+- **UI Streamlit & Tunnel**: Phát triển hoàn chỉnh `starter_v0/app.py`, kết nối trực tiếp với OpenRouterProvider, hỗ trợ tương tác đa lượt, hiển thị trực quan các lượt gọi tool và tự động lưu transcript. Deploy thành công qua Cloudflare Tunnel phục vụ Showdown.
+- **Báo cáo nhóm**: Tổng hợp và hoàn thiện toàn bộ báo cáo `report/team/group_report.md` (Phần A giới thiệu agent và Phần B chi tiết bằng chứng B1–B7).
+
+### Bằng chứng
+
+- **Files**: `starter_v0/artifacts/system_prompt.md`, `starter_v0/artifacts/version_log.csv`, `starter_v0/app.py`, `report/team/group_report.md`.
+- **Runs**:
+  - Baseline v0: `starter_v0/runs/v0_B_base_openrouter_20261110T172108091238.json` (70%).
+  - Prompt v1: `starter_v0/runs/v1_B_base_openrouter_20261110T193325762444.json` (75%).
+- **Public URL**: `https://geography-adaptive-leaves-unfortunately.trycloudflare.com`.
+- **Báo cáo cá nhân**: [2A202603803_VuXuanBach.md](report/team/2A202603803_VuXuanBach.md).

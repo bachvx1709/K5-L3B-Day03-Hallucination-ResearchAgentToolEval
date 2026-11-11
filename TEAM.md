@@ -14,6 +14,7 @@
 |   1 | Vũ Xuân Bách | 2A202603803 |26ai.bachvx2@vinuni.edu.vn| bachvx1709 | Leader, v0, v1, UI & Report |
 |   2 | Nguyễn Hoàng Trung | 2A202603826 | 26ai.trungnh@vinui.edu.vn | trungtk03 | CP3: Custom Tool & Unit Tests |
 |   3 | Nguyễn Duy Mạnh | 2A202603806 | 26ai.manhnd9@vinuni.edu.vn | hnamyud | Eval nhóm, Model local |
+|   4 | Đỗ Triệu Đức Phương | 2A202603843 | 26ai.phuongdtđ@vinuni.edu.vn | ducphuong2005 | CP2: fix prompt and tool declaration for v3  |
 
 ## Cá nhân
 
@@ -101,3 +102,30 @@ report/team/MSSV_HoTen.md
   - Prompt v1: `starter_v0/runs/v1_B_base_openrouter_20261110T193325762444.json` (75%).
 - **Public URL**: `https://geography-adaptive-leaves-unfortunately.trycloudflare.com`.
 - **Báo cáo cá nhân**: [2A202603803_VuXuanBach.md](report/team/2A202603803_VuXuanBach.md).
+
+## DoTrieuDucPhuong — CP2: Tối ưu hóa prompt và tool declaration (bản v3)
+
+### Phần việc phụ trách
+
+- Phân tích lỗi còn tồn đọng sau v0, v1, v2 để xây dựng giả thuyết toàn diện cho bản v3.
+- Tối ưu đồng thời cả `system_prompt.md` và `tools.yaml`.
+- Chạy base eval đo lường phiên bản v3, phân tích kết quả và cập nhật `version_log.csv`.
+
+### Đóng góp và kết quả
+
+- Bản v3 đạt **95%** (19/20 passed) trên base eval, tăng thêm 25% từ 70% ở v0; đạt **100% Tool Routing Accuracy** và **100% Multiturn Accuracy**.
+- Loại bỏ các chỉ dẫn xấu của starter code (xúi đoán mò username/URL, tự ý gửi tin, ép hoàn thành 1 bước).
+- Bổ sung quy tắc routing rõ ràng, thiết lập boundary an toàn (hỏi xác nhận `yes_no` trước khi gửi Telegram), xử lý các câu ngoài phạm vi/meta không gọi tool.
+- Chuẩn hóa convention tham số: `screenname` không chứa `@`, trích xuất `query` sạch chỉ giữ thực thể cốt lõi (bỏ từ ngữ thời gian/loại tin), chuẩn hóa `topic=news` và `timeframe=day/week`.
+
+### Bằng chứng
+
+- Commit / PR: cập nhật tối ưu `system_prompt.md` và `tools.yaml` cho v3.
+- File: `starter_v0/artifacts/system_prompt.md`, `starter_v0/artifacts/tools.yaml`, `starter_v0/artifacts/version_log.csv`.
+- Run file: `starter_v0/runs/v3_B_base_openrouter_20261110T190653600689.json` (đạt 19/20 pass, 0 provider error).
+- Hợp đồng kiểm thử: `pytest tests/test_tool_contract.py` đạt **55/55 passed**.
+- Báo cáo cá nhân: [2A202603843_DoTrieuDucPhuong.md](report/team/2A202603843_DoTrieuDucPhuong.md).
+
+### Đánh giá ngắn
+
+Đã hoàn thành toàn diện nhiệm vụ Checkpoint 2 (v3) với minh chứng thực nghiệm và số đo rõ ràng. Kết quả chứng minh việc kết hợp chặt chẽ giữa routing rule trong prompt và định nghĩa boundary/arg convention trong tools schema để loại bỏ hallucination và nâng cao độ chính xác của agent.
